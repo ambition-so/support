@@ -1,17 +1,17 @@
-import { VStack, Text, useColorModeValue } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel, Input, Button } from '@chakra-ui/react';
 import {  } from '../hooks/useWebsite'
 
-const Website = () => {
+const Users = () => {
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
     return (
         <VStack alignItems='flex-start'>
             <Text>
-                Website
+            Users
             </Text>
         </VStack>
     )
 }
 
-export default Website
+export default Users

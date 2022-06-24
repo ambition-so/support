@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
+import { useMutation, useLazyQuery } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
 import {
     SET_BASE_URI,

@@ -2,16 +2,18 @@ import { Flex, HStack, Text, VStack, Image, Link, Button } from '@chakra-ui/reac
 import { useCore } from '../providers/CoreProvider'
 import { HiOutlineDocumentText } from 'react-icons/hi'
 import { CgWebsite } from 'react-icons/cg'
-import { MdOutlineDashboard } from 'react-icons/md'
+import { MdOutlineDashboard, MdOutlinePersonOutline } from 'react-icons/md'
 import { useLocation, Link as RouteLink } from 'react-router-dom'
-import Contract from './Contract';
-import Website from './Website';
+import Contracts from './Contracts';
+import Websites from './Websites';
 import Dashboard from './Dashboard';
+import Users from './Users';
 
 const menuArr = [
     { title: 'Dashboard', icon: <MdOutlineDashboard fontSize='20pt' />, route: '/' },
-    { title: 'Contract', icon: <HiOutlineDocumentText fontSize='20pt' />, route: '/contract' },
-    { title: 'Website', icon: <CgWebsite fontSize='20pt' />, route: '/website' },
+    { title: 'Users', icon: <MdOutlinePersonOutline fontSize='20pt' />, route: '/users' },
+    { title: 'Contracts', icon: <HiOutlineDocumentText fontSize='20pt' />, route: '/contracts' },
+    { title: 'Websites', icon: <CgWebsite fontSize='20pt' />, route: '/websites' }
 ]
 
 const MainDashboard = () => {
@@ -59,8 +61,9 @@ const MainDashboard = () => {
                 </VStack>
                 <VStack flex='1' alignItems='flex-end'>
                     {location?.pathname === '/' && <Dashboard /> }
-                    {location?.pathname === '/contract' && <Contract /> }
-                    {location?.pathname === '/website' && <Website /> }
+                    {location?.pathname === '/users' && <Users /> }
+                    {location?.pathname === '/contracts' && <Contracts /> }
+                    {location?.pathname === '/websites' && <Websites /> }
                 </VStack>
             </HStack>
         </VStack>

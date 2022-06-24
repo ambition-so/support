@@ -3,7 +3,7 @@ import { useGetContract } from '../hooks/useContract'
 import { FaSearch } from 'react-icons/fa'
 import { useCore } from '../providers/CoreProvider';
 
-const Contract = () => {
+const Contracts = () => {
     const { contractAddress, setContractAddress } = useCore();
     const [getContract, { loading }] = useGetContract();
 
@@ -44,4 +44,4 @@ const Contract = () => {
     )
 }
 
-export default Contract
+export default Contracts
