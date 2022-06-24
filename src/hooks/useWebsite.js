@@ -1,5 +1,5 @@
 import { useQuery } from '@apollo/client';
-import { GET_PUBLISHED, GET_WEBSITE_BY_DOMAIN } from '../website.gql';
+import { GET_PUBLISHED, GET_WEBSITE_BY_DOMAIN } from '../gql/website.gql';
 
 export const useGetPublished = ({ title, onError }) => {
     const { ...queryResult } = useQuery(GET_PUBLISHED, {
