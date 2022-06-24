@@ -4,6 +4,7 @@
   "private": true,
   "homepage": "./src",
   "dependencies": {
+    "@apollo/client": "^3.6.9",
     "@chakra-ui/react": "^2.2.1",
     "@chakra-ui/theme-tools": "^2.0.2",
     "@emotion/react": "^11.9.3",
@@ -11,6 +12,7 @@
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.2.0",
     "@testing-library/user-event": "^13.5.0",
+    "apollo-link-context": "^1.0.20",
     "framer-motion": "^6.3.13",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",

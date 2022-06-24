@@ -6,13 +6,16 @@ import reportWebVitals from './reportWebVitals';
 import theme from './utils/theme';
 import './styles/index.css';
 import { CoreProvider } from './providers/CoreProvider';
+import { AuthorizedApolloProvider } from './libs/apollo';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <ChakraProvider theme={theme}>
-        <CoreProvider>
-            <App />
-        </CoreProvider>
+        <AuthorizedApolloProvider>
+            <CoreProvider>
+                <App />
+            </CoreProvider>
+        </AuthorizedApolloProvider>
     </ChakraProvider>
 );
 
