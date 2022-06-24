@@ -1,4 +1,5 @@
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery, useLazyQuery } from '@apollo/client'
+import { useToast } from '@chakra-ui/react'
 import {
     SET_BASE_URI,
     SET_UN_REVEALED_BASE_URI,
@@ -9,7 +10,37 @@ import {
     DELETE_CONTRACT,
     SET_NFT_PRICE,
     SET_EMBED_BUTTON_CSS
-} from '../gql/contract.gql';
+} from '../gql/contract.gql'
+import { useCore } from '../providers/CoreProvider'
+
+export const useGetContract = () => {
+    const toast = useToast();
+    const { setContract, setContractAddress } = useCore();
+
+    const [getContract, { ...queryResult }] = useLazyQuery(
+        GET_CONTRACT,
+        {
+            onCompleted: async (data) => {
+                console.log(data.getContract);
+                setContract(data.getContract);
+                setContractAddress('');
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [getContract, { ...queryResult }];
+};
 
 export const useDeleteContract = ({ onCompleted, onError }) => {
     
@@ -24,17 +55,6 @@ export const useDeleteContract = ({ onCompleted, onError }) => {
     );
 
     return [deleteContract, { ...mutationResult }];
-};
-
-export const useGetContract = async ({ address, onCompleted, onError }) => {
-
-    const { ...queryResult } = useQuery(GET_CONTRACT, {
-        variables: { address },
-        onCompleted,
-        onError,
-    });
-
-    return { ...queryResult };
 };
 
 export const useSetBaseUri = ({ onCompleted, onError }) => {

@@ -7,6 +7,10 @@ export const CoreProvider = ({ children }) => {
     const [isSaving, setIsSaving] = useState(false);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [address, setAddress] = useState('');
+    const [contract, setContract] = useState();
+    const [contractAddress, setContractAddress] = useState('');
+    const [website, setWebsite] = useState();
+    const [websiteTitle, setWebsiteTitle] = useState('');
 
     const controllers = {
         isSaving,
@@ -14,7 +18,15 @@ export const CoreProvider = ({ children }) => {
         isLoggedIn,
         setIsLoggedIn,
         address,
-        setAddress
+        setAddress,
+        contract,
+        setContract,
+        contractAddress,
+        setContractAddress,
+        website,
+        setWebsite,
+        websiteTitle,
+        setWebsiteTitle
     }
 
     return (
