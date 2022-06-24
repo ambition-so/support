@@ -46,6 +46,7 @@ const MainDashboard = () => {
                                     justifyContent='flex-start' 
                                     _hover={{ bg: 'whiteAlpha.100' }}
                                     w='full'
+                                    color={location?.pathname === menu.route ? '#348CD4' : 'white'}
                                 >
                                     {menu.title}
                                 </Button>
