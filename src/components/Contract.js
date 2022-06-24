@@ -1,9 +1,11 @@
-import { VStack } from '@chakra-ui/react';
+import { VStack, Text } from '@chakra-ui/react';
 
 const Contract = () => {
     return (
-        <VStack>
-
+        <VStack alignItems='flex-start'>
+            <Text>
+                Contract
+            </Text>
         </VStack>
     )
 }

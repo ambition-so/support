@@ -1,6 +1,6 @@
 import { Box, VStack, Button, Text } from '@chakra-ui/react'
 import { Helmet } from 'react-helmet'
-import Dashboard from './components/Dashboard'
+import MainDashboard from './components/MainDashboard'
 import { useLogin } from './hooks/useLogin'
 import { useCore } from './providers/CoreProvider'
 
@@ -30,7 +30,7 @@ const App = () => {
                             </Button>
                         </VStack>
                     ) : (
-                        <Dashboard />
+                        <MainDashboard />
                     )}
                 </VStack>
             </main>

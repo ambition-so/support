@@ -1,9 +1,11 @@
-import { VStack } from '@chakra-ui/react';
+import { VStack, Text } from '@chakra-ui/react';
 
 const Website = () => {
     return (
-        <VStack>
-
+        <VStack alignItems='flex-start'>
+            <Text>
+                Website
+            </Text>
         </VStack>
     )
 }
