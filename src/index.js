@@ -7,16 +7,19 @@ import theme from './utils/theme';
 import './styles/index.css';
 import { CoreProvider } from './providers/CoreProvider';
 import { AuthorizedApolloProvider } from './libs/apollo';
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <ChakraProvider theme={theme}>
-        <AuthorizedApolloProvider>
-            <CoreProvider>
-                <App />
-            </CoreProvider>
-        </AuthorizedApolloProvider>
-    </ChakraProvider>
+    <BrowserRouter>
+        <ChakraProvider theme={theme}>
+            <AuthorizedApolloProvider>
+                <CoreProvider>
+                    <App />
+                </CoreProvider>
+            </AuthorizedApolloProvider>
+        </ChakraProvider>
+    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
