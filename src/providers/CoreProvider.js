@@ -5,10 +5,16 @@ export const useCore = () => useContext(CoreContext)
 
 export const CoreProvider = ({ children }) => {
     const [isSaving, setIsSaving] = useState(false);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const [address, setAddress] = useState('');
 
     const controllers = {
         isSaving,
-        setIsSaving
+        setIsSaving,
+        isLoggedIn,
+        setIsLoggedIn,
+        address,
+        setAddress
     }
 
     return (

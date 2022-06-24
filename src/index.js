@@ -5,14 +5,15 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import theme from './utils/theme';
 import './styles/index.css';
+import { CoreProvider } from './providers/CoreProvider';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <React.StrictMode>
-        <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme}>
+        <CoreProvider>
             <App />
-        </ChakraProvider>
-    </React.StrictMode>
+        </CoreProvider>
+    </ChakraProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
