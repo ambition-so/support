@@ -1,4 +1,4 @@
-import { VStack, Text, useColorModeValue, Flex } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel } from '@chakra-ui/react';
 
 const Contract = () => {
 

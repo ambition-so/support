@@ -1,8 +1,12 @@
-import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel, Wrap } from '@chakra-ui/react';
 
 // Most recent one is bottom
 const changeLogsArr = [
-    { features: ['view contracts', 'view websites'], date: 'June 24, 2022' },
+    { 
+        contract: ['view contracts'], 
+        website: ['view websites'], 
+        date: 'June 24, 2022' 
+    },
 ]
 
 const Dashboard = () => {
@@ -29,7 +33,6 @@ const Dashboard = () => {
                         borderRadius='.25em'
                         boxShadow='0 0 2px 0 rgb(0 0 0 / 10%)'
                         w='full'
-                        maxW='600px'
                         key={idx}
                     >
                         <Flex justifyContent='space-between'>
@@ -47,13 +50,28 @@ const Dashboard = () => {
                                 {log.date}
                             </Text>
                         </Flex>
-                        <VStack alignItems='flex-start' spacing='0' mt='.5em'>
-                            {log.features.map((feature, idx) => (
-                                <Text fontSize='8pt' key={idx}>
-                                    - {feature}
+                        <Wrap w='full' spacing='1em' mt='.5em'>
+                            <VStack alignItems='flex-start' spacing='0' flex='1'>
+                                <Text fontSize='9pt'>
+                                    Contracts:
                                 </Text>
-                            ))}
-                        </VStack>
+                                {log.contract.map((feature, idx) => (
+                                    <Text fontSize='8pt' key={idx}>
+                                        - {feature}
+                                    </Text>
+                                ))}
+                            </VStack>
+                            <VStack alignItems='flex-start' spacing='0' flex='1'>
+                                <Text fontSize='9pt'>
+                                    Websites:
+                                </Text>
+                                {log.website.map((feature, idx) => (
+                                    <Text fontSize='8pt' key={idx}>
+                                        - {feature}
+                                    </Text>
+                                ))}
+                            </VStack>
+                        </Wrap>
                     </Flex>
                 )).reverse()}
             </VStack>
