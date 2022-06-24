@@ -1,4 +1,5 @@
 import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel } from '@chakra-ui/react';
+import {  } from '../hooks/useContract'
 
 const Contract = () => {
 
@@ -15,7 +16,7 @@ const Contract = () => {
             minH='700px'
         >
             <Text>
-            Contract
+                Contract
             </Text>
         </Flex>
     )
