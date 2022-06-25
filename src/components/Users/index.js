@@ -1,8 +1,8 @@
-import { Text, Flex, HStack, Input, IconButton } from '@chakra-ui/react';
+import { Text, Flex, HStack } from '@chakra-ui/react'
 import { useGetUser } from '../../hooks/useUser'
-import { FaSearch } from 'react-icons/fa'
-import { useCore } from '../../providers/CoreProvider';
-import Details from './Details';
+import { useCore } from '../../providers/CoreProvider'
+import Details from './Details'
+import Search from '../Search'
 
 const Users = () => {
     const { userInput, setUserInput } = useCore();
@@ -19,12 +19,15 @@ const Users = () => {
                         View or Update Users
                     </Text>
                 </Flex>
-                <HStack>
-                    <Input placeholder='Search User' value={userInput} onChange={(e) => setUserInput(e.target.value) }/>
-                    <IconButton onClick={() => getUser({ variables: { id: userInput } })} disabled={loading} isLoading={loading}>
-                        <FaSearch />
-                    </IconButton>
-                </HStack>
+                <Search 
+                    placeholder='Search User' 
+                    value={userInput} 
+                    onChange={(e) => setUserInput(e.target.value)}
+                    isLoading={loading}
+                    searchArr={[
+                        { filter: 'ID', callback: () => getUser({ variables: { id: userInput } })}
+                    ]}
+                />
             </HStack>
             <Details />
         </Flex>

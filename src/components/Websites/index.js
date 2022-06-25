@@ -1,8 +1,8 @@
-import { Text, Flex, HStack, Input, IconButton } from '@chakra-ui/react';
+import { Text, Flex, HStack } from '@chakra-ui/react'
 import { useGetWebsite } from '../../hooks/useWebsite'
-import { FaSearch } from 'react-icons/fa'
-import { useCore } from '../../providers/CoreProvider';
-import Details from './Details';
+import { useCore } from '../../providers/CoreProvider'
+import Details from './Details'
+import Search from '../Search'
 
 const Websites = () => {
     const { websiteInput, setWebsiteInput } = useCore();
@@ -19,12 +19,15 @@ const Websites = () => {
                         View or Update Websites
                     </Text>
                 </Flex>
-                <HStack>
-                    <Input placeholder='Search Website' value={websiteInput} onChange={(e) => setWebsiteInput(e.target.value) }/>
-                    <IconButton onClick={() => getWebsite({ variables: { title: websiteInput } })} disabled={loading} isLoading={loading}>
-                        <FaSearch />
-                    </IconButton>
-                </HStack>
+                <Search 
+                    placeholder='Search Website' 
+                    value={websiteInput} 
+                    onChange={(e) => setWebsiteInput(e.target.value)}
+                    isLoading={loading}
+                    searchArr={[
+                        { filter: 'Address', callback: () => getWebsite({ variables: { title: websiteInput } })}
+                    ]}
+                />
             </HStack>
             <Details />
         </Flex>
