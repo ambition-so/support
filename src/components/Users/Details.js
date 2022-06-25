@@ -1,4 +1,4 @@
-import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel, Input, IconButton, Spinner, Box  } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex } from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
@@ -22,10 +22,10 @@ const UserDetails = () => {
                 Users
             </Text>
             <Text fontSize='9pt'>
-                Details the ERC721A Contract you searched for
+                Details of the User you searched for
             </Text>
             <VStack alignItems='flex-start' w='full' mt='1.5em'>
-                <DetailDisplay primary='Contract ID' secondary={user?.id} />
+                <DetailDisplay primary='User ID' secondary={user?.id} />
                 <DetailDisplay primary='Name' secondary={user?.name} />
                 <DetailDisplay primary='Email' secondary={user?.email} />
                 <DetailDisplay primary='Nonce' secondary={user?.nonce} />

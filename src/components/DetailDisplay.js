@@ -27,7 +27,7 @@ const DetailDisplay = ({ primary, secondary, disableCopy }) => {
             <HStack>
                 <Tag>
                     <TagLabel>
-                        {secondary}
+                        {secondary || 'n/a'}
                     </TagLabel>
                 </Tag>
                 {!disableCopy && (

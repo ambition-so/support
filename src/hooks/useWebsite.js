@@ -1,26 +1,33 @@
-import { useQuery, useLazyQuery } from '@apollo/client';
-import { GET_PUBLISHED, GET_WEBSITE_BY_DOMAIN } from '../gql/website.gql';
+import { useLazyQuery } from '@apollo/client'
+import { useToast } from '@chakra-ui/react'
+import { GET_WEBSITE } from '../gql/website.gql'
+import { useCore } from '../providers/CoreProvider'
 
-export const useGetPublished = ({ title, onError }) => {
-    const { ...queryResult } = useQuery(GET_PUBLISHED, {
-		variables: { title },
-		onCompleted: data => {
-            
-		},
-        onError
-	});
+export const useGetWebsite = () => {
+    const toast = useToast();
+    const { setWebsite, setWebsiteTitle } = useCore();
 
-	return { ...queryResult }
-}
+    const [getWebsite, { ...queryResult }] = useLazyQuery(
+        GET_WEBSITE,
+        {
+            onCompleted: async (data) => {
+                console.log(data.getWebsite)
+                setWebsite(data.getWebsite);
+                setWebsiteTitle('');
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
 
-export const useGetWebsiteByDomain = ({ domain, onError }) => {
-    const { ...queryResult } = useQuery(GET_WEBSITE_BY_DOMAIN, {
-		variables: { domain },
-		onCompleted: data => {
-            
-		},
-        onError
-	});
-
-	return { ...queryResult }
-}
+    return [getWebsite, { ...queryResult }];
+};
