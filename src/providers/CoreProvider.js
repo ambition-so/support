@@ -8,11 +8,11 @@ export const CoreProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [address, setAddress] = useState('');
     const [contract, setContract] = useState();
-    const [contractAddress, setContractAddress] = useState('');
+    const [contractInput, setContractInput] = useState('');
     const [website, setWebsite] = useState();
-    const [websiteTitle, setWebsiteTitle] = useState('');
+    const [websiteInput, setWebsiteInput] = useState('');
     const [user, setUser] = useState();
-    const [userId, setUserId] = useState('');
+    const [userInput, setUserInput] = useState('');
 
     const controllers = {
         isSaving,
@@ -23,16 +23,16 @@ export const CoreProvider = ({ children }) => {
         setAddress,
         contract,
         setContract,
-        contractAddress,
-        setContractAddress,
+        contractInput,
+        setContractInput,
         website,
         setWebsite,
-        websiteTitle,
-        setWebsiteTitle,
+        websiteInput,
+        setWebsiteInput,
         user,
         setUser,
-        userId,
-        setUserId
+        userInput,
+        setUserInput
     }
 
     return (

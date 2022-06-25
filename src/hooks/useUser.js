@@ -5,7 +5,7 @@ import { useCore } from '../providers/CoreProvider'
 
 export const useGetUser = () => {
     const toast = useToast();
-    const { setUser, setUserId } = useCore();
+    const { setUser, setUserInput } = useCore();
 
     const [getUser, { ...queryResult }] = useLazyQuery(
         GET_USER,
@@ -13,7 +13,7 @@ export const useGetUser = () => {
             onCompleted: async (data) => {
                 console.log(data.getUser)
                 setUser(data.getUser);
-                setUserId('');
+                setUserInput('');
             },
             onError: async (err) => {
                 console.error(err);

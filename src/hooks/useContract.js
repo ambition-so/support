@@ -15,7 +15,7 @@ import { useCore } from '../providers/CoreProvider'
 
 export const useGetContract = () => {
     const toast = useToast();
-    const { setContract, setContractAddress } = useCore();
+    const { setContract, setContractInput } = useCore();
 
     const [getContract, { ...queryResult }] = useLazyQuery(
         GET_CONTRACT,
@@ -23,7 +23,7 @@ export const useGetContract = () => {
             onCompleted: async (data) => {
                 console.log(data.getContract);
                 setContract(data.getContract);
-                setContractAddress('');
+                setContractInput('');
             },
             onError: async (err) => {
                 console.error(err);

@@ -5,7 +5,7 @@ import { useCore } from '../../providers/CoreProvider';
 import Details from './Details';
 
 const Contracts = () => {
-    const { contractAddress, setContractAddress } = useCore();
+    const { contractInput, setContractInput } = useCore();
     const [getContract, { loading }] = useGetContract();
 
     return (
@@ -20,8 +20,8 @@ const Contracts = () => {
                     </Text>
                 </Flex>
                 <HStack>
-                    <Input placeholder='Search Contract Address' value={contractAddress} onChange={(e) => setContractAddress(e.target.value) }/>
-                    <IconButton onClick={() => getContract({ variables: { address: contractAddress } })} disabled={loading} isLoading={loading}>
+                    <Input placeholder='Search Contract Address' value={contractInput} onChange={(e) => setContractInput(e.target.value) }/>
+                    <IconButton onClick={() => getContract({ variables: { address: contractInput } })} disabled={loading} isLoading={loading}>
                         <FaSearch />
                     </IconButton>
                 </HStack>

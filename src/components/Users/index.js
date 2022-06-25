@@ -5,7 +5,7 @@ import { useCore } from '../../providers/CoreProvider';
 import Details from './Details';
 
 const Users = () => {
-    const { userId, setUserId } = useCore();
+    const { userInput, setUserInput } = useCore();
     const [getUser, { loading }] = useGetUser();
 
     return (
@@ -20,8 +20,8 @@ const Users = () => {
                     </Text>
                 </Flex>
                 <HStack>
-                    <Input placeholder='Search User ID' value={userId} onChange={(e) => setUserId(e.target.value) }/>
-                    <IconButton onClick={() => getUser({ variables: { id: userId } })} disabled={loading} isLoading={loading}>
+                    <Input placeholder='Search User' value={userInput} onChange={(e) => setUserInput(e.target.value) }/>
+                    <IconButton onClick={() => getUser({ variables: { id: userInput } })} disabled={loading} isLoading={loading}>
                         <FaSearch />
                     </IconButton>
                 </HStack>

@@ -5,7 +5,7 @@ import { useCore } from '../providers/CoreProvider'
 
 export const useGetWebsite = () => {
     const toast = useToast();
-    const { setWebsite, setWebsiteTitle } = useCore();
+    const { setWebsite, setWebsiteInput } = useCore();
 
     const [getWebsite, { ...queryResult }] = useLazyQuery(
         GET_WEBSITE,
@@ -13,7 +13,7 @@ export const useGetWebsite = () => {
             onCompleted: async (data) => {
                 console.log(data.getWebsite)
                 setWebsite(data.getWebsite);
-                setWebsiteTitle('');
+                setWebsiteInput('');
             },
             onError: async (err) => {
                 console.error(err);
