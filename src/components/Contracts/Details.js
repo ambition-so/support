@@ -1,4 +1,4 @@
-import { VStack, Text, useColorModeValue, Flex } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex, Button } from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
@@ -29,7 +29,11 @@ const ContractDetails = () => {
                 <DetailDisplay primary='Name' secondary={contract?.name} />
                 <DetailDisplay primary='Symbol' secondary={contract?.symbol} />
                 <DetailDisplay primary='Type' secondary={contract?.type} />
-                <DetailDisplay primary='Contract Address' secondary={contract?.address} />
+                <DetailDisplay primary='Contract Address' secondary={contract?.address}>
+                    <Button size='sm' variant='primary'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
                 <DetailDisplay primary="Owner's User ID" secondary={contract?.author} />
                 <DetailDisplay primary='Blockchain' secondary={contract?.blockchain} />
             </VStack>

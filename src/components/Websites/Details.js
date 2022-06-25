@@ -1,4 +1,4 @@
-import { VStack, Text, useColorModeValue, Flex } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex, Button } from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
@@ -26,8 +26,16 @@ const WebsiteDetails = () => {
             </Text>
             <VStack alignItems='flex-start' w='full' mt='1.5em'>
                 <DetailDisplay primary='Website ID' secondary={website?._id} />
-                <DetailDisplay primary='Title' secondary={website?.title} /> 
-                <DetailDisplay primary='isSubscribed' secondary={website?.isSubscribed ? 'true' : 'false'} />
+                <DetailDisplay primary='Title' secondary={website?.title}> 
+                    <Button size='sm' variant='primary'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
+                <DetailDisplay primary='isSubscribed' secondary={website?.isSubscribed ? 'true' : 'false'}>
+                    <Button size='sm' variant='primary'>
+                    Edit
+                    </Button>
+                </DetailDisplay>
                 <DetailDisplay primary='isPublished' secondary={website?.isPublished ? 'true' : 'false'} />
                 <DetailDisplay primary='isCustomDomainActive' secondary={website?.isCustomDomainActive ? 'true' : 'false'} />
                 <DetailDisplay primary='Default Custom Domain' secondary={website?.customDomain} />

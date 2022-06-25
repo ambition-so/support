@@ -39,8 +39,14 @@ export const useGetLast4Digits = () => {
         GET_4_DIGITS,
         {
             onCompleted: async (data) => {
-                console.log(data.getLast4Digits)
-                
+                toast({
+                    title: 'Success',
+                    description: `Last 4 digits: ${data.getLast4Digits}`,
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
             },
             onError: async (err) => {
                 console.error(err);

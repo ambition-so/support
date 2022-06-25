@@ -25,7 +25,7 @@ const Websites = () => {
                     onChange={(e) => setWebsiteInput(e.target.value)}
                     isLoading={loading}
                     searchArr={[
-                        { filter: 'Address', callback: () => getWebsite({ variables: { title: websiteInput } })}
+                        { filter: 'Title', callback: () => getWebsite({ variables: { title: websiteInput } })}
                     ]}
                 />
             </HStack>
