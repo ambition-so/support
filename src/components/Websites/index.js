@@ -20,7 +20,7 @@ const Websites = () => {
                     </Text>
                 </Flex>
                 <HStack>
-                    <Input placeholder='Search Website Title' value={websiteInput} onChange={(e) => setWebsiteInput(e.target.value) }/>
+                    <Input placeholder='Search Website' value={websiteInput} onChange={(e) => setWebsiteInput(e.target.value) }/>
                     <IconButton onClick={() => getWebsite({ variables: { title: websiteInput } })} disabled={loading} isLoading={loading}>
                         <FaSearch />
                     </IconButton>

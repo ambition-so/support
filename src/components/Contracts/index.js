@@ -20,7 +20,7 @@ const Contracts = () => {
                     </Text>
                 </Flex>
                 <HStack>
-                    <Input placeholder='Search Contract Address' value={contractInput} onChange={(e) => setContractInput(e.target.value) }/>
+                    <Input placeholder='Search Contract' value={contractInput} onChange={(e) => setContractInput(e.target.value) }/>
                     <IconButton onClick={() => getContract({ variables: { address: contractInput } })} disabled={loading} isLoading={loading}>
                         <FaSearch />
                     </IconButton>
