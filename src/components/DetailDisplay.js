@@ -1,7 +1,7 @@
 import { Text, Tag, HStack, TagLabel, Box, useToast } from '@chakra-ui/react'
 import { MdOutlineContentCopy } from 'react-icons/md'
 
-const DetailDisplay = ({ primary, secondary, disableCopy }) => {
+const DetailDisplay = ({ primary, secondary, disableCopy, children }) => {
     const toast = useToast();
 
     const copySecondary = () => {
@@ -24,15 +24,20 @@ const DetailDisplay = ({ primary, secondary, disableCopy }) => {
                     {primary}
                 </Text>
             </Box>
-            <HStack>
-                <Tag>
-                    <TagLabel>
-                        {secondary || 'n/a'}
-                    </TagLabel>
-                </Tag>
-                {!disableCopy && (
-                    <MdOutlineContentCopy onClick={copySecondary} cursor='pointer' />
-                )}
+            <HStack w='full'>
+                <HStack>
+                    <Tag>
+                        <TagLabel>
+                            {secondary || 'n/a'}
+                        </TagLabel>
+                    </Tag>
+                    {!disableCopy && (
+                        <MdOutlineContentCopy onClick={copySecondary} cursor='pointer' />
+                    )}
+                </HStack>
+                <HStack>
+                    {children}
+                </HStack>
             </HStack>
         </HStack>
     )

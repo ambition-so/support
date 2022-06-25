@@ -1,10 +1,12 @@
-import { VStack, Text, useColorModeValue, Flex } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex, Button } from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
+import { useGetLast4Digits } from '../../hooks/useUser'
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 
 const UserDetails = () => {
     const { user } = useCore();
+    const [getLast4Digits, { loading }] = useGetLast4Digits();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -29,7 +31,11 @@ const UserDetails = () => {
                 <DetailDisplay primary='Name' secondary={user?.name} />
                 <DetailDisplay primary='Email' secondary={user?.email} />
                 <DetailDisplay primary='Nonce' secondary={user?.nonce} />
-                <DetailDisplay primary='Stripe Customer ID' secondary={user?.stripeCustomerId} />
+                <DetailDisplay primary='Stripe Customer ID' secondary={user?.stripeCustomerId}>
+                    <Button size='sm' variant='primary' onClick={() => getLast4Digits({ variables: { customerId: user?.stripeCustomerId }})} disabled={loading} isLoading={loading}>
+                        Get Last 4 Digits
+                    </Button>
+                </DetailDisplay>
             </VStack>
         </Flex>
     ) : (

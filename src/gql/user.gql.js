@@ -13,3 +13,9 @@ export const GET_USER = gql`
         }
     }
 `;
+
+export const GET_4_DIGITS = gql`
+    query GetLast4Digits($customerId: String!) {
+        getLast4Digits(customerId: $customerId)
+    }
+`;
