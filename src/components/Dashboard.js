@@ -3,9 +3,8 @@ import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel, Wrap } fr
 // Most recent one is bottom
 const changeLogsArr = [
     { 
-        contract: ['view contracts'], 
-        website: ['view websites'], 
-        date: 'June 24, 2022' 
+        logs: ['view users', 'view contracts', 'view websites'], 
+        date: 'June 25, 2022' 
     },
 ]
 
@@ -50,28 +49,13 @@ const Dashboard = () => {
                                 {log.date}
                             </Text>
                         </Flex>
-                        <Wrap w='full' spacing='1em' mt='.5em'>
-                            <VStack alignItems='flex-start' spacing='0' flex='1'>
-                                <Text fontSize='9pt'>
-                                    Contracts:
+                        <VStack alignItems='flex-start' spacing='0' flex='1' mt='1em'>
+                            {log.logs.map((feature, idx) => (
+                                <Text fontSize='8pt' key={idx}>
+                                    - {feature}
                                 </Text>
-                                {log.contract.map((feature, idx) => (
-                                    <Text fontSize='8pt' key={idx}>
-                                        - {feature}
-                                    </Text>
-                                ))}
-                            </VStack>
-                            <VStack alignItems='flex-start' spacing='0' flex='1'>
-                                <Text fontSize='9pt'>
-                                    Websites:
-                                </Text>
-                                {log.website.map((feature, idx) => (
-                                    <Text fontSize='8pt' key={idx}>
-                                        - {feature}
-                                    </Text>
-                                ))}
-                            </VStack>
-                        </Wrap>
+                            ))}
+                        </VStack>
                     </Flex>
                 )).reverse()}
             </VStack>
