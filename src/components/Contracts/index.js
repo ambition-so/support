@@ -1,13 +1,12 @@
 import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel, Input, IconButton } from '@chakra-ui/react';
-import { useGetContract } from '../hooks/useContract'
+import { useGetContract } from '../../hooks/useContract'
 import { FaSearch } from 'react-icons/fa'
-import { useCore } from '../providers/CoreProvider';
+import { useCore } from '../../providers/CoreProvider';
+import Details from './Details';
 
 const Contracts = () => {
     const { contractAddress, setContractAddress } = useCore();
     const [getContract, { loading }] = useGetContract();
-
-    const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
     return (
         <Flex flexDir='column' w='full'>
@@ -27,19 +26,7 @@ const Contracts = () => {
                     </IconButton>
                 </HStack>
             </HStack>
-            <Flex 
-                flexDir='column'
-                bg={containerColor}
-                p='2em'
-                borderRadius='.25em'
-                boxShadow='0 0 2px 0 rgb(0 0 0 / 10%)'
-                w='full'
-                mt='2em'
-            >
-                <Text>
-                    Details
-                </Text>
-            </Flex>
+            <Details />
         </Flex>
     )
 }
