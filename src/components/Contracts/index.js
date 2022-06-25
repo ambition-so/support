@@ -1,4 +1,4 @@
-import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel, Input, IconButton } from '@chakra-ui/react';
+import { Text, Flex, HStack, Input, IconButton } from '@chakra-ui/react';
 import { useGetContract } from '../../hooks/useContract'
 import { FaSearch } from 'react-icons/fa'
 import { useCore } from '../../providers/CoreProvider';
@@ -16,7 +16,7 @@ const Contracts = () => {
                         Contract Dashboard
                     </Text>
                     <Text fontSize='10pt'>
-                        View or update contracts
+                        View or Update Contracts
                     </Text>
                 </Flex>
                 <HStack>

@@ -3,16 +3,17 @@ import { useToast } from '@chakra-ui/react'
 import { GET_USER } from '../gql/user.gql'
 import { useCore } from '../providers/CoreProvider'
 
-export const useGetContract = () => {
+export const useGetUser = () => {
     const toast = useToast();
-    const { setUser, setUserAddress } = useCore();
+    const { setUser, setUserId } = useCore();
 
     const [getUser, { ...queryResult }] = useLazyQuery(
         GET_USER,
         {
             onCompleted: async (data) => {
+                console.log(data.getUser)
                 setUser(data.getUser);
-                setUserAddress('');
+                setUserId('');
             },
             onError: async (err) => {
                 console.error(err);

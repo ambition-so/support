@@ -12,7 +12,7 @@ export const CoreProvider = ({ children }) => {
     const [website, setWebsite] = useState();
     const [websiteTitle, setWebsiteTitle] = useState('');
     const [user, setUser] = useState();
-    const [userAddress, setUserAddress] = useState('');
+    const [userId, setUserId] = useState('');
 
     const controllers = {
         isSaving,
@@ -31,8 +31,8 @@ export const CoreProvider = ({ children }) => {
         setWebsiteTitle,
         user,
         setUser,
-        userAddress,
-        setUserAddress
+        userId,
+        setUserId
     }
 
     return (

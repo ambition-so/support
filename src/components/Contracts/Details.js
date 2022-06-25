@@ -1,11 +1,9 @@
-import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel, Input, IconButton, Spinner, Box  } from '@chakra-ui/react';
-import { useGetContract } from '../../hooks/useContract'
-import { FaSearch } from 'react-icons/fa'
+import { VStack, Text, useColorModeValue, Flex } from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 
-const Details = () => {
+const ContractDetails = () => {
     const { contract } = useCore();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
@@ -24,7 +22,7 @@ const Details = () => {
                 Details
             </Text>
             <Text fontSize='9pt'>
-                Details the ERC721A Contract you searched for
+                Details of the ERC721A Contract you searched for
             </Text>
             <VStack alignItems='flex-start' w='full' mt='1.5em'>
                 <DetailDisplay primary='Contract ID' secondary={contract?.id} />
@@ -41,4 +39,4 @@ const Details = () => {
     )
 }
 
-export default Details
+export default ContractDetails
