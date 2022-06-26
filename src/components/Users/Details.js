@@ -3,9 +3,10 @@ import { useCore } from '../../providers/CoreProvider';
 import { useGetLast4Digits } from '../../hooks/useUser'
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
+import EditModal from '../EditModal';
 
 const UserDetails = () => {
-    const { user } = useCore();
+    const { user, setIsEditModal, setEditModalData } = useCore();
     const [getLast4Digits, { loading }] = useGetLast4Digits();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
@@ -20,6 +21,7 @@ const UserDetails = () => {
             w='full'
             mt='2em'
         >
+            <EditModal />
             <Text fontSize='10pt'>
                 Users
             </Text>

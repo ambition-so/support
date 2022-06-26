@@ -2,9 +2,10 @@ import { VStack, Text, useColorModeValue, Flex, Button } from '@chakra-ui/react'
 import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
+import EditModal from '../EditModal';
 
 const ContractDetails = () => {
-    const { contract } = useCore();
+    const { contract, setIsEditModal, setEditModalData } = useCore();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -18,6 +19,7 @@ const ContractDetails = () => {
             w='full'
             mt='2em'
         >
+            <EditModal />
             <Text fontSize='10pt'>
                 Details
             </Text>
@@ -30,7 +32,16 @@ const ContractDetails = () => {
                 <DetailDisplay primary='Symbol' secondary={contract?.symbol} />
                 <DetailDisplay primary='Type' secondary={contract?.type} />
                 <DetailDisplay primary='Contract Address' secondary={contract?.address}>
-                    <Button size='sm' variant='primary'>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Contract Address',
+                            default: contract?.address,
+                            callback: () => {
+
+                            }
+                        })
+                        setIsEditModal(true);
+                    }}>
                         Edit
                     </Button>
                 </DetailDisplay>

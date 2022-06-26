@@ -2,9 +2,10 @@ import { VStack, Text, useColorModeValue, Flex, Button } from '@chakra-ui/react'
 import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
+import EditModal from '../EditModal';
 
 const WebsiteDetails = () => {
-    const { website } = useCore();
+    const { website, setIsEditModal, setEditModalData } = useCore();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -18,6 +19,7 @@ const WebsiteDetails = () => {
             w='full'
             mt='2em'
         >
+            <EditModal />
             <Text fontSize='10pt'>
                 Websites
             </Text>
@@ -27,13 +29,31 @@ const WebsiteDetails = () => {
             <VStack alignItems='flex-start' w='full' mt='1.5em'>
                 <DetailDisplay primary='Website ID' secondary={website?._id} />
                 <DetailDisplay primary='Title' secondary={website?.title}> 
-                    <Button size='sm' variant='primary'>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Website Title',
+                            default: website?.title,
+                            callback: () => {
+                                
+                            }
+                        })
+                        setIsEditModal(true);
+                    }}>
                         Edit
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='isSubscribed' secondary={website?.isSubscribed ? 'true' : 'false'}>
-                    <Button size='sm' variant='primary'>
-                    Edit
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Website Subscription',
+                            default: website?.isSubscribed,
+                            callback: () => {
+                                
+                            }
+                        })
+                        setIsEditModal(true);
+                    }}>
+                        Edit
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='isPublished' secondary={website?.isPublished ? 'true' : 'false'} />

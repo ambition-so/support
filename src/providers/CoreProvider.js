@@ -13,6 +13,8 @@ export const CoreProvider = ({ children }) => {
     const [websiteInput, setWebsiteInput] = useState('');
     const [user, setUser] = useState();
     const [userInput, setUserInput] = useState('');
+    const [isEditModal, setIsEditModal] = useState(false);
+    const [editModalData, setEditModalData] = useState();
 
     const controllers = {
         isSaving,
@@ -32,7 +34,11 @@ export const CoreProvider = ({ children }) => {
         user,
         setUser,
         userInput,
-        setUserInput
+        setUserInput,
+        isEditModal,
+        setIsEditModal,
+        editModalData,
+        setEditModalData,
     }
 
     return (
