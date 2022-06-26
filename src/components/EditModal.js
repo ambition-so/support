@@ -33,7 +33,7 @@ const EditModal = () => {
                             Cancel
                         </Button>
                         <Button size='sm' onClick={() => {
-                            editModalData?.callback();
+                            editModalData?.callback(editInput);
                             setIsEditModal(false);
                         }} variant='primary' leftIcon={<FaSave />}>
                             Save

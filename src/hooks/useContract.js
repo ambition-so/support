@@ -42,6 +42,44 @@ export const useGetContract = () => {
     return [getContract, { ...queryResult }];
 };
 
+export const useUpdateContractAddress = () => {
+    const toast = useToast();
+    const { setContract, contract } = useCore();
+
+    const [updateContractAddress, { ...mutationResult }] = useMutation(
+        UPDATE_CONTRACT_ADDRESS,
+        {
+            onCompleted: async (data) => {
+                let newContract = { ...contract };
+                newContract.address = data.updateContractAddress.address;
+                setContract(newContract);
+
+                toast({
+                    title: 'Success',
+                    description: 'Updated Contract Address',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [updateContractAddress, { ...mutationResult }];
+};
+
 export const useDeleteContract = ({ onCompleted, onError }) => {
     
     const [deleteContract, { ...mutationResult }] = useMutation(
@@ -115,21 +153,6 @@ export const useSetEmbedButtonCss = ({ onCompleted, onError }) => {
     });
 
     return [setEmbedButtonCss, { ...mutationResult }];
-};
-
-export const useUpdateContractAddress = ({ onCompleted, onError }) => {
-
-    const [updateContractAddress, { ...mutationResult }] = useMutation(
-        UPDATE_CONTRACT_ADDRESS,
-        {
-            onCompleted: async (data) => {
-                
-            },
-            onError,
-        }
-    );
-
-    return [updateContractAddress, { ...mutationResult }];
 };
 
 export const useUpdateContractDetails = ({ onCompleted, onError }) => {

@@ -3,9 +3,11 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
+import { useUpdateContractAddress } from '../../hooks/useContract'
 
 const ContractDetails = () => {
     const { contract, setIsEditModal, setEditModalData } = useCore();
+    const [updateContractAddress, { loading }] = useUpdateContractAddress();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -36,12 +38,13 @@ const ContractDetails = () => {
                         setEditModalData({
                             item: 'Contract Address',
                             default: contract?.address,
-                            callback: () => {
-
+                            callback: (newValue) => {
+                                if (newValue === contract?.address) return;
+                                updateContractAddress({ variables: { id: contract?.id, address: newValue } })
                             }
                         })
                         setIsEditModal(true);
-                    }}>
+                    }} disabled={loading} isLoading={loading} loadingText='Saving'>
                         Edit
                     </Button>
                 </DetailDisplay>
