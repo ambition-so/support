@@ -7,7 +7,7 @@ import { useSetWebsiteTitle } from '../../hooks/useWebsite'
 
 const WebsiteDetails = () => {
     const { website, setIsEditModal, setEditModalData } = useCore();
-    const [setWebsiteTitle] = useSetWebsiteTitle();
+    const [setWebsiteTitle, { loading }] = useSetWebsiteTitle();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -41,7 +41,7 @@ const WebsiteDetails = () => {
                             }
                         })
                         setIsEditModal(true);
-                    }}>
+                    }} disabled={loading} isLoading={loading} loadingText='Saving'>
                         Edit
                     </Button>
                 </DetailDisplay>
