@@ -3,11 +3,11 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useUpdateWebsiteTitle } from '../../hooks/useWebsite'
+import { useSetWebsiteTitle } from '../../hooks/useWebsite'
 
 const WebsiteDetails = () => {
     const { website, setIsEditModal, setEditModalData } = useCore();
-    const [updateWebsiteTitle, { loading }] = useUpdateWebsiteTitle();
+    const [setWebsiteTitle] = useSetWebsiteTitle();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -37,7 +37,7 @@ const WebsiteDetails = () => {
                             default: website?.title,
                             callback: (newValue) => {
                                 if (newValue === website?.title) return;
-                                updateWebsiteTitle({ variables: { websiteId: website?._id, title: newValue } })
+                                setWebsiteTitle({ variables: { websiteId: website?._id, title: newValue } })
                             }
                         })
                         setIsEditModal(true);

@@ -32,16 +32,16 @@ export const useGetWebsite = () => {
     return [getWebsite, { ...queryResult }];
 };
 
-export const useUpdateWebsiteTitle = () => {
+export const useSetWebsiteTitle = () => {
     const toast = useToast();
     const { setWebsite, website } = useCore();
 
-    const [updateWebsiteTitle, { ...mutationResult }] = useMutation(
+    const [setWebsiteTitle, { ...mutationResult }] = useMutation(
         UPDATE_WEBSITE_TITLE,
         {
             onCompleted: async (data) => {
                 let newWebsite = { ...website };
-                newWebsite.title = data.updateWebsiteTitle;
+                newWebsite.title = data.setWebsiteTitle;
                 setWebsite(newWebsite);
 
                 toast({
@@ -67,5 +67,5 @@ export const useUpdateWebsiteTitle = () => {
         }
     );
 
-    return [updateWebsiteTitle, { ...mutationResult }];
+    return [setWebsiteTitle, { ...mutationResult }];
 };
