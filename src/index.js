@@ -1,14 +1,25 @@
 import React from 'react';
+import { ChakraProvider } from '@chakra-ui/react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import theme from './utils/theme';
+import './styles/index.css';
+import { CoreProvider } from './providers/CoreProvider';
+import { AuthorizedApolloProvider } from './libs/apollo';
+import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <BrowserRouter>
+        <ChakraProvider theme={theme}>
+            <AuthorizedApolloProvider>
+                <CoreProvider>
+                    <App />
+                </CoreProvider>
+            </AuthorizedApolloProvider>
+        </ChakraProvider>
+    </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function
