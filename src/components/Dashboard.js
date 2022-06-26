@@ -1,9 +1,9 @@
-import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel, Wrap } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex, Tag, HStack, TagLabel } from '@chakra-ui/react';
 
 // Most recent one is bottom
 const changeLogsArr = [
     { 
-        logs: ['view users', 'view contracts', 'view websites'], 
+        logs: ['view users', 'view contracts', 'view websites', 'edit contract address', 'edit website title'], 
         date: 'June 25, 2022' 
     },
 ]
