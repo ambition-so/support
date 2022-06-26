@@ -3,9 +3,11 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
+import { useUpdateWebsiteTitle } from '../../hooks/useWebsite'
 
 const WebsiteDetails = () => {
     const { website, setIsEditModal, setEditModalData } = useCore();
+    const [updateWebsiteTitle, { loading }] = useUpdateWebsiteTitle();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -33,8 +35,9 @@ const WebsiteDetails = () => {
                         setEditModalData({
                             item: 'Website Title',
                             default: website?.title,
-                            callback: () => {
-                                
+                            callback: (newValue) => {
+                                if (newValue === website?.title) return;
+                                updateWebsiteTitle({ variables: { websiteId: website?._id, title: newValue } })
                             }
                         })
                         setIsEditModal(true);
@@ -43,18 +46,18 @@ const WebsiteDetails = () => {
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='isSubscribed' secondary={website?.isSubscribed ? 'true' : 'false'}>
-                    <Button size='sm' variant='primary' onClick={() => {
+                    {/* <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({
                             item: 'Website Subscription',
                             default: website?.isSubscribed,
-                            callback: () => {
-                                
+                            callback: (newValue) => {
+                                console.log('not implemented yet')
                             }
                         })
                         setIsEditModal(true);
                     }}>
                         Edit
-                    </Button>
+                    </Button> */}
                 </DetailDisplay>
                 <DetailDisplay primary='isPublished' secondary={website?.isPublished ? 'true' : 'false'} />
                 <DetailDisplay primary='isCustomDomainActive' secondary={website?.isCustomDomainActive ? 'true' : 'false'} />

@@ -43,3 +43,9 @@ export const GET_WEBSITE = gql`
 		}
 	}
 `
+
+export const UPDATE_WEBSITE_TITLE = gql`
+    mutation SetWebsiteTitle($websiteId: String!, $title: String!) {
+        setWebsiteTitle(websiteId: $websiteId, title: $title)
+    }
+`;
