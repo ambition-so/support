@@ -11,15 +11,15 @@ import { BrowserRouter } from "react-router-dom";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-    <BrowserRouter>
-        <ChakraProvider theme={theme}>
+    <ChakraProvider theme={theme}>
+        <BrowserRouter>
             <AuthorizedApolloProvider>
                 <CoreProvider>
                     <App />
                 </CoreProvider>
             </AuthorizedApolloProvider>
-        </ChakraProvider>
-    </BrowserRouter>
+        </BrowserRouter>
+    </ChakraProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function
