@@ -45,6 +45,7 @@ const WebsiteDetails = () => {
                         Edit
                     </Button>
                 </DetailDisplay>
+                <DetailDisplay primary='Author' secondary={website?.author} />
                 <DetailDisplay primary='isSubscribed' secondary={website?.isSubscribed ? 'true' : 'false'}>
                     {/* <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({
