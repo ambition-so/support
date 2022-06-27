@@ -38,6 +38,7 @@ const UserDetails = () => {
                         Get Last 4 Digits
                     </Button>
                 </DetailDisplay>
+                <DetailDisplay primary='Address' secondary={user?.address} />
             </VStack>
         </Flex>
     ) : (
