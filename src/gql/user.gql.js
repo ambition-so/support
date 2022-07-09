@@ -25,3 +25,24 @@ export const CHANGE_EMAIL = gql`
         changeEmail(id: $id, email: $email)
     }
 `;
+
+export const VERIFY_SIGNATURE = gql`
+    mutation VerifySignature($address: String!, $signature: String!) {
+        verifySignature(address: $address, signature: $signature) {
+            token
+            user {
+                id
+                address
+                name
+                email
+                stripeCustomerId
+            }
+        }
+    }
+`;
+
+export const GET_NONCE = gql`
+    mutation GetNonceByAddress($address: String!) {
+        getNonceByAddress(address: $address)
+    }
+`;

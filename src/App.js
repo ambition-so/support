@@ -2,10 +2,10 @@ import { Box, VStack, Button, Text } from '@chakra-ui/react'
 import { Helmet } from 'react-helmet'
 import MainDashboard from './components/MainDashboard'
 import { useLogin } from './hooks/useLogin'
-import { useCore } from './providers/CoreProvider'
+import { useAuth } from './providers/AuthProvider'
 
 const App = () => {
-    const { isLoggedIn } = useCore();
+    const { isAuthenticated } = useAuth();
     const { ConnectWithMetamask } = useLogin();
 
     return (
@@ -20,7 +20,7 @@ const App = () => {
             </Helmet>
             <main>
                 <VStack justifyContent='center' alignItems='center' minHeight='100vh'>
-                    {!isLoggedIn ? (
+                    {!isAuthenticated ? (
                         <VStack>
                             <Text>
                                 Ambition.so Support Dashboard

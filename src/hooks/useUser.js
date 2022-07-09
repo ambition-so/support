@@ -1,7 +1,8 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
-import { GET_USER, GET_4_DIGITS, CHANGE_EMAIL } from '../gql/user.gql'
+import { GET_USER, GET_4_DIGITS, CHANGE_EMAIL, VERIFY_SIGNATURE, GET_NONCE } from '../gql/user.gql'
 import { useCore } from '../providers/CoreProvider'
+import { useAuth } from '../providers/AuthProvider'
 
 export const useGetUser = () => {
     const toast = useToast();
@@ -101,4 +102,54 @@ export const useChangeEmail = () => {
     );
 
     return [changeEmail, { ...mutationResult }];
+};
+
+export const useVerifySignature = () => {
+    const toast = useToast();
+    const { onLoginSuccess } = useAuth();
+
+    const [verifySignature, { ...mutationResult }] = useMutation(
+        VERIFY_SIGNATURE,
+        {
+            onCompleted: (data) => {
+                onLoginSuccess(data.verifySignature);
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [verifySignature, { ...mutationResult }];
+};
+
+export const useGetNonceByAddress = () => {
+    const toast = useToast();
+
+    const [getNonceByAddress, { ...mutationResult }] = useMutation(GET_NONCE, {
+        onCompleted: (data) => {
+            console.log(data.getNonceByAddress)
+        },
+        onError: async (err) => {
+            console.error(err);
+            toast({
+                title: 'Error',
+                description: !err.response ? err.message : err.response.data?.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
+        }
+    });
+
+    return [getNonceByAddress, { ...mutationResult }];
 };

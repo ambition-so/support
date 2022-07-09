@@ -79,7 +79,12 @@ export const useSetContractAddress = () => {
         {
             onCompleted: async (data) => {
                 let newWebsite = { ...website };
-                newWebsite.settings.connectedContractAddress = data.setContractAddress;
+
+                const settings = {
+                    connectedContractAddress: data.setContractAddress
+                }
+
+                newWebsite.settings = settings;
                 setWebsite(newWebsite);
 
                 toast({
