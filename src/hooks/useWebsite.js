@@ -117,7 +117,7 @@ export const useSetSubscription = () => {
     const toast = useToast();
     const { website, setWebsite } = useCore();
 
-    const [setSubscription] = useMutation(SET_SUBSCRIPTION, {
+    const [setSubscription, { ...mutationResult }] = useMutation(SET_SUBSCRIPTION, {
         onCompleted: (data) => {
             let newWebsite = { ...website };
             newWebsite.isSubscribed = data.setWebsiteSubscription;
@@ -136,5 +136,5 @@ export const useSetSubscription = () => {
         }
     });
 
-    return [setSubscription];
+    return [setSubscription, { ...mutationResult }];
 };
