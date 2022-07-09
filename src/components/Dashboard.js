@@ -6,6 +6,11 @@ const changeLogsArr = [
         logs: ['view users', 'view contracts', 'view websites', 'edit contract address', 'edit website title'], 
         date: 'June 25, 2022' 
     },
+    { 
+        logs: ['edit contract subscription', 'get contract by id', 'edit contract owner', 'edit contract address', 
+        'edit contract unrevelead uri', 'edit contract base uri', 'get website by id', 'edit website subscription', 'edit website contract', 'edit user email'], 
+        date: 'July 08, 2022' 
+    },
 ]
 
 const Dashboard = () => {
