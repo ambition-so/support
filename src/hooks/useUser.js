@@ -12,7 +12,6 @@ export const useGetUser = () => {
         GET_USER,
         {
             onCompleted: async (data) => {
-                console.log(data.getUser)
                 setUser(data.getUser);
                 setUserInput('');
             },
@@ -136,7 +135,7 @@ export const useGetNonceByAddress = () => {
 
     const [getNonceByAddress, { ...mutationResult }] = useMutation(GET_NONCE, {
         onCompleted: (data) => {
-            console.log(data.getNonceByAddress)
+            
         },
         onError: async (err) => {
             console.error(err);

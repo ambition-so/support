@@ -122,6 +122,15 @@ export const useSetSubscription = () => {
             let newWebsite = { ...website };
             newWebsite.isSubscribed = data.setWebsiteSubscription;
             setWebsite(newWebsite);
+
+            toast({
+                title: 'Success',
+                description: 'Updated Website Subscription',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
         },
         onError: async (err) => {
             console.error(err);
