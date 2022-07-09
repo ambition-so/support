@@ -82,6 +82,32 @@ export const GET_CONTRACT = gql`
     }
 `;
 
+export const GET_CONTRACT_BY_ID = gql`
+    query GetContractById($id: String!) {
+        getContractById(id: $id) {
+            id
+            name
+            symbol
+            type
+            author
+            blockchain
+            address
+            embed {
+                css
+            }
+            nftCollection {
+                price
+                currency
+                size
+                royalty
+                baseUri
+                unRevealedBaseUri
+                whitelist
+            }
+        }
+    }
+`
+
 export const SET_BASE_URI = gql`
     mutation SetBaseUri($baseUri: String!, $id: ID!) {
         setBaseUri(baseUri: $baseUri, id: $id) {

@@ -9,7 +9,8 @@ import {
     GET_CONTRACT,
     DELETE_CONTRACT,
     SET_NFT_PRICE,
-    SET_EMBED_BUTTON_CSS
+    SET_EMBED_BUTTON_CSS,
+    GET_CONTRACT_BY_ID
 } from '../gql/contract.gql'
 import { useCore } from '../providers/CoreProvider'
 
@@ -168,4 +169,32 @@ export const useUpdateContractDetails = ({ onCompleted, onError }) => {
     );
 
     return [updateContractDetails, { ...mutationResult }];
+};
+
+export const useGetContractById = () => {
+    const toast = useToast();
+    const { setContract, setContractInput } = useCore();
+
+    const [getContractById, { ...queryResult }] = useLazyQuery(
+        GET_CONTRACT_BY_ID,
+        {
+            onCompleted: async (data) => {
+                setContract(data.getContractById);
+                setContractInput('');
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [getContractById, { ...queryResult }];
 };
