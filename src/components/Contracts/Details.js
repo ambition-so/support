@@ -3,12 +3,13 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useUpdateContractAddress, useSetOwnerId } from '../../hooks/useContract'
+import { useUpdateContractAddress, useSetOwnerId, useSetContractSubscription } from '../../hooks/useContract'
 
 const ContractDetails = () => {
     const { contract, setIsEditModal, setEditModalData } = useCore();
     const [updateContractAddress, { loading: loading1 }] = useUpdateContractAddress();
     const [setOwnerId, { loading: loading2 }] = useSetOwnerId();
+    const [setContractSubscription, { loading: loading3 }] = useSetContractSubscription();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -32,7 +33,21 @@ const ContractDetails = () => {
             <VStack alignItems='flex-start' w='full' mt='1.5em'>
                 <DetailDisplay primary='Contract ID' secondary={contract?.id} />
                 <DetailDisplay primary='Name' secondary={contract?.name} />
-                <DetailDisplay primary='isSubscribed' secondary={contract?.isSubscribed ? 'true' : 'false'} />
+                <DetailDisplay primary='isSubscribed' secondary={contract?.isSubscribed ? 'true' : 'false'}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Contract Subscription',
+                            default: contract?.isSubscribed,
+                            callback: (newValue) => {
+                                if (newValue === contract?.address) return;
+                                setContractSubscription({ variables: { id: contract?.id, isSubscribed: newValue === 'true' ? true : false }})
+                            }
+                        })
+                        setIsEditModal(true);
+                    }} disabled={loading3} isLoading={loading3} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
                 <DetailDisplay primary='Symbol' secondary={contract?.symbol} />
                 <DetailDisplay primary='Type' secondary={contract?.type} />
                 <DetailDisplay primary='Contract Address' secondary={contract?.address}>

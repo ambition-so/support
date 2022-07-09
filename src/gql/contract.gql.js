@@ -194,3 +194,9 @@ export const SET_OWNER_ID = gql`
         setOwnerId(id: $id, newId: $newId)
     }
 `;
+
+export const SET_CONTRACT_SUBSCRIPTION = gql`
+    mutation SetContractSubscription($id: String!, $isSubscribed: Boolean!) {
+        setContractSubscription(id: $id, isSubscribed: $isSubscribed)
+    }
+`;

@@ -11,7 +11,8 @@ import {
     SET_NFT_PRICE,
     SET_EMBED_BUTTON_CSS,
     GET_CONTRACT_BY_ID,
-    SET_OWNER_ID
+    SET_OWNER_ID,
+    SET_CONTRACT_SUBSCRIPTION
 } from '../gql/contract.gql'
 import { useCore } from '../providers/CoreProvider'
 
@@ -229,4 +230,42 @@ export const useSetOwnerId = () => {
     );
 
     return [setOwnerId, { ...queryResult }];
+};
+
+export const useSetContractSubscription = () => {
+    const toast = useToast();
+    const { contract, setContract } = useCore();
+
+    const [setContractSubscription, { ...queryResult }] = useMutation(
+        SET_CONTRACT_SUBSCRIPTION,
+        {
+            onCompleted: async (data) => {
+                let newContract = { ...contract }
+                newContract.isSubscribed = data.setContractSubscription;
+                setContract(newContract);
+
+                toast({
+                    title: 'Success',
+                    description: 'Updated Contract Subscription',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [setContractSubscription, { ...queryResult }];
 };
