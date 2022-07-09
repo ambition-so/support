@@ -55,3 +55,9 @@ export const UPDATE_CONNECTED_ADDRESS = gql`
         setContractAddress(websiteId: $websiteId, address: $address)
     }
 `;
+
+export const SET_SUBSCRIPTION = gql`
+    mutation SetSubscription($websiteId: String!, $isSubscribed: Boolean!) {
+        setSubscription(websiteId: $websiteId, isSubscribed: $isSubscribed)
+    }
+`;
