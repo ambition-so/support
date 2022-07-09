@@ -180,6 +180,7 @@ export const useGetContractById = () => {
         GET_CONTRACT_BY_ID,
         {
             onCompleted: async (data) => {
+                console.log(data.getContractById);
                 setContract(data.getContractById);
                 setContractInput('');
             },

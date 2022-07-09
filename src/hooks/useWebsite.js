@@ -156,6 +156,7 @@ export const useGetWebsiteById = () => {
         GET_WEBSITE_BY_ID,
         {
             onCompleted: async (data) => {
+                console.log(data.getWebsiteById);
                 setWebsite(data.getWebsiteById);
                 setWebsiteInput('');
             },

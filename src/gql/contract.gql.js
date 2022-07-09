@@ -61,6 +61,7 @@ export const GET_CONTRACT = gql`
         getContract(address: $address) {
             id
             name
+            isSubscribed
             symbol
             type
             author
@@ -87,6 +88,7 @@ export const GET_CONTRACT_BY_ID = gql`
         getContractById(id: $id) {
             id
             name
+            isSubscribed
             symbol
             type
             author

@@ -32,6 +32,7 @@ const ContractDetails = () => {
             <VStack alignItems='flex-start' w='full' mt='1.5em'>
                 <DetailDisplay primary='Contract ID' secondary={contract?.id} />
                 <DetailDisplay primary='Name' secondary={contract?.name} />
+                <DetailDisplay primary='isSubscribed' secondary={contract?.isSubscribed ? 'true' : 'false'} />
                 <DetailDisplay primary='Symbol' secondary={contract?.symbol} />
                 <DetailDisplay primary='Type' secondary={contract?.type} />
                 <DetailDisplay primary='Contract Address' secondary={contract?.address}>
