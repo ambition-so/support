@@ -24,6 +24,7 @@
     "web3": "^1.7.4"
   },
   "scripts": {
+    "dev": "cross-env REACT_APP_CONFIG=dev react-scripts start",
     "start": "cross-env REACT_APP_CONFIG=dev react-scripts start",
     "start:prod": "cross-env REACT_APP_CONFIG=prod react-scripts start",
     "build": "cross-env REACT_APP_CONFIG=prod react-scripts build",

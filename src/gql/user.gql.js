@@ -19,3 +19,9 @@ export const GET_4_DIGITS = gql`
         getLast4Digits(customerId: $customerId)
     }
 `;
+
+export const CHANGE_EMAIL = gql`
+    mutation ChangeEmail($id: String!, $email: String!) {
+        changeEmail(id: $id, email: $email)
+    }
+`;

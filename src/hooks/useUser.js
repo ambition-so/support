@@ -1,6 +1,6 @@
-import { useLazyQuery } from '@apollo/client'
+import { useLazyQuery, useMutation } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
-import { GET_USER, GET_4_DIGITS } from '../gql/user.gql'
+import { GET_USER, GET_4_DIGITS, CHANGE_EMAIL } from '../gql/user.gql'
 import { useCore } from '../providers/CoreProvider'
 
 export const useGetUser = () => {
@@ -64,3 +64,41 @@ export const useGetLast4Digits = () => {
 
     return [getLast4Digits, { ...queryResult }];
 }
+
+export const useChangeEmail = () => {
+    const toast = useToast();
+    const { setUser, user } = useCore();
+
+    const [changeEmail, { ...mutationResult }] = useMutation(
+        CHANGE_EMAIL,
+        {
+            onCompleted: async (data) => {
+                let newUser = { ...user };
+                newUser.email = data.changeEmail;
+                setUser(newUser);
+
+                toast({
+                    title: 'Success',
+                    description: 'Updated User Email',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [changeEmail, { ...mutationResult }];
+};

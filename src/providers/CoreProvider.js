@@ -38,7 +38,7 @@ export const CoreProvider = ({ children }) => {
         isEditModal,
         setIsEditModal,
         editModalData,
-        setEditModalData,
+        setEditModalData
     }
 
     return (
