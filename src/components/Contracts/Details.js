@@ -66,6 +66,16 @@ const ContractDetails = () => {
                 </DetailDisplay>
                 <DetailDisplay primary='Blockchain' secondary={contract?.blockchain} />
             </VStack>
+            <VStack mt='2em' alignItems='flex-start'>
+                <Text fontSize='10pt'>
+                    Collection Information
+                </Text>
+                <DetailDisplay primary='Price' secondary={contract?.nftCollection?.price} />
+                <DetailDisplay primary='Currency' secondary={contract?.nftCollection?.currency} />
+                <DetailDisplay primary='Size' secondary={contract?.nftCollection?.size} />
+                <DetailDisplay primary='Unrevelead URI' secondary={contract?.nftCollection?.unRevealedBaseUri} />
+                <DetailDisplay primary='Base URI' secondary={contract?.nftCollection?.baseUri} />
+            </VStack>
         </Flex>
     ) : (
         <Loading />
