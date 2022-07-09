@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
-import { GET_WEBSITE, UPDATE_WEBSITE_TITLE, UPDATE_CONNECTED_ADDRESS, SET_SUBSCRIPTION } from '../gql/website.gql'
+import { GET_WEBSITE, UPDATE_WEBSITE_TITLE, UPDATE_CONNECTED_ADDRESS, SET_SUBSCRIPTION, GET_WEBSITE_BY_ID } from '../gql/website.gql'
 import { useCore } from '../providers/CoreProvider'
 
 export const useGetWebsite = () => {
@@ -146,4 +146,32 @@ export const useSetSubscription = () => {
     });
 
     return [setSubscription, { ...mutationResult }];
+};
+
+export const useGetWebsiteById = () => {
+    const toast = useToast();
+    const { setWebsite, setWebsiteInput } = useCore();
+
+    const [getWebsiteById, { ...queryResult }] = useLazyQuery(
+        GET_WEBSITE_BY_ID,
+        {
+            onCompleted: async (data) => {
+                setWebsite(data.getWebsiteById);
+                setWebsiteInput('');
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [getWebsiteById, { ...queryResult }];
 };
