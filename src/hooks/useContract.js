@@ -10,7 +10,8 @@ import {
     DELETE_CONTRACT,
     SET_NFT_PRICE,
     SET_EMBED_BUTTON_CSS,
-    GET_CONTRACT_BY_ID
+    GET_CONTRACT_BY_ID,
+    SET_OWNER_ID
 } from '../gql/contract.gql'
 import { useCore } from '../providers/CoreProvider'
 
@@ -197,4 +198,34 @@ export const useGetContractById = () => {
     );
 
     return [getContractById, { ...queryResult }];
+};
+
+export const useSetOwnerId = () => {
+    const toast = useToast();
+    const { contract, setContract, setContractInput } = useCore();
+
+    const [setOwnerId, { ...queryResult }] = useMutation(
+        SET_OWNER_ID,
+        {
+            onCompleted: async (data) => {
+                let newContract = { ...contract }
+                newContract.author = data.setOwnerId;
+                setContract(newContract);
+                setContractInput('');
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [setOwnerId, { ...queryResult }];
 };

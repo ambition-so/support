@@ -186,3 +186,9 @@ export const SET_EMBED_BUTTON_CSS = gql`
         }
     }
 `;
+
+export const SET_OWNER_ID = gql`
+    mutation SetOwnerId($id: String!, $newId: String!) {
+        setOwnerId(id: $id, newId: $newId)
+    }
+`;

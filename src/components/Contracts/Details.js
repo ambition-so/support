@@ -3,11 +3,12 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useUpdateContractAddress } from '../../hooks/useContract'
+import { useUpdateContractAddress, useSetOwnerId } from '../../hooks/useContract'
 
 const ContractDetails = () => {
     const { contract, setIsEditModal, setEditModalData } = useCore();
-    const [updateContractAddress, { loading }] = useUpdateContractAddress();
+    const [updateContractAddress, { loading: loading1 }] = useUpdateContractAddress();
+    const [setOwnerId, { loading: loading2 }] = useSetOwnerId();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -44,11 +45,25 @@ const ContractDetails = () => {
                             }
                         })
                         setIsEditModal(true);
-                    }} disabled={loading} isLoading={loading} loadingText='Saving'>
+                    }} disabled={loading1} isLoading={loading1} loadingText='Saving'>
                         Edit
                     </Button>
                 </DetailDisplay>
-                <DetailDisplay primary="Owner's User ID" secondary={contract?.author} />
+                <DetailDisplay primary="Owner's User ID" secondary={contract?.author}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Contract Owner ID',
+                            default: contract?.author,
+                            callback: (newValue) => {
+                                if (newValue === contract?.author) return;
+                                setOwnerId({ variables: { id: contract?.id, newId: newValue } })
+                            }
+                        }) 
+                        setIsEditModal(true);
+                    }} disabled={loading2} isLoading={loading2} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
                 <DetailDisplay primary='Blockchain' secondary={contract?.blockchain} />
             </VStack>
         </Flex>
