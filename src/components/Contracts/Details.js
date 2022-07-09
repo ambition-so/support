@@ -3,13 +3,15 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useUpdateContractAddress, useSetOwnerId, useSetContractSubscription } from '../../hooks/useContract'
+import { useUpdateContractAddress, useSetOwnerId, useSetContractSubscription, useSetBaseUri, useSetUnRevealedBaseUri } from '../../hooks/useContract'
 
 const ContractDetails = () => {
     const { contract, setIsEditModal, setEditModalData } = useCore();
     const [updateContractAddress, { loading: loading1 }] = useUpdateContractAddress();
     const [setOwnerId, { loading: loading2 }] = useSetOwnerId();
     const [setContractSubscription, { loading: loading3 }] = useSetContractSubscription();
+    const [setBaseUri, { loading: loading4 }] = useSetBaseUri();
+    const [setUnRevealedBaseUri, { loading: loading5 }] = useSetUnRevealedBaseUri();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -89,8 +91,36 @@ const ContractDetails = () => {
                 <DetailDisplay primary='Price' secondary={contract?.nftCollection?.price} />
                 <DetailDisplay primary='Currency' secondary={contract?.nftCollection?.currency} />
                 <DetailDisplay primary='Size' secondary={contract?.nftCollection?.size} />
-                <DetailDisplay primary='Unrevelead URI' secondary={contract?.nftCollection?.unRevealedBaseUri} />
-                <DetailDisplay primary='Base URI' secondary={contract?.nftCollection?.baseUri} />
+                <DetailDisplay primary='Unrevelead URI' secondary={contract?.nftCollection?.unRevealedBaseUri}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Contract Owner ID',
+                            default: contract?.nftCollection?.unRevealedBaseUri,
+                            callback: (newValue) => {
+                                if (newValue === contract?.author) return;
+                                setUnRevealedBaseUri({ variables: { id: contract?.id, unRevealedBaseUri: newValue } })
+                            }
+                        }) 
+                        setIsEditModal(true);
+                    }} disabled={loading4} isLoading={loading4} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
+                <DetailDisplay primary='Base URI' secondary={contract?.nftCollection?.baseUri}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Contract Owner ID',
+                            default: contract?.nftCollection?.baseUri,
+                            callback: (newValue) => {
+                                if (newValue === contract?.author) return;
+                                setBaseUri({ variables: { id: contract?.id, baseUri: newValue } })
+                            }
+                        }) 
+                        setIsEditModal(true);
+                    }} disabled={loading5} isLoading={loading5} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
             </VStack>
         </Flex>
     ) : (

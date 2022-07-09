@@ -98,25 +98,84 @@ export const useDeleteContract = ({ onCompleted, onError }) => {
     return [deleteContract, { ...mutationResult }];
 };
 
-export const useSetBaseUri = ({ onCompleted, onError }) => {
+export const useSetBaseUri = () => {
+    const toast = useToast();
+    const { contract, setContract } = useCore();
 
     const [setBaseUri, { ...mutationResult }] = useMutation(SET_BASE_URI, {
         onCompleted: async (data) => {
-            
+            let newContract = { ...contract };
+
+            const newNftCollection = {
+                ...contract.nftCollection,
+                baseUri: data.setBaseUri.nftCollection.baseUri
+            }
+
+            newContract.nftCollection = newNftCollection;
+
+            setContract(newContract);
+
+            toast({
+                title: 'Success',
+                description: 'Updated Contract BaseURI',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
         },
-        onError,
+        onError: async (err) => {
+            console.error(err);
+            toast({
+                title: 'Error',
+                description: !err.response ? err.message : err.response.data?.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
+        }
     });
 
     return [setBaseUri, { ...mutationResult }];
 };
 
-export const useSetUnRevealedBaseUri = ({ onCompleted, onError }) => {
+export const useSetUnRevealedBaseUri = () => {
+    const toast = useToast();
+    const { contract, setContract } = useCore();
 
     const [setUnRevealedBaseUri, { ...mutationResult }] = useMutation(SET_UN_REVEALED_BASE_URI, {
         onCompleted: async (data) => {
-           
+            let newContract = { ...contract };
+
+            const newNftCollection = {
+                ...contract.nftCollection,
+                unRevealedBaseUri: data.setUnRevealedBaseUri.nftCollection.unRevealedBaseUri
+            }
+
+            newContract.nftCollection = newNftCollection;
+            setContract(newContract);
+
+            toast({
+                title: 'Success',
+                description: 'Updated Contract UnreveleadURI',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
         },
-        onError,
+        onError: async (err) => {
+            console.error(err);
+            toast({
+                title: 'Error',
+                description: !err.response ? err.message : err.response.data?.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
+        }
     });
 
     return [setUnRevealedBaseUri, { ...mutationResult }];
