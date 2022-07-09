@@ -51,7 +51,7 @@ export const UPDATE_WEBSITE_TITLE = gql`
 `;
 
 export const UPDATE_CONNECTED_ADDRESS = gql`
-    mutation SetConnectedContract($websiteId: String!, $address: String!) {
-        setConnectedContract(websiteId: $websiteId, address: $address)
+    mutation SetContractAddress($websiteId: String!, $address: String!) {
+        setContractAddress(websiteId: $websiteId, address: $address)
     }
 `;

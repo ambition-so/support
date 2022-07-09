@@ -70,16 +70,16 @@ export const useSetWebsiteTitle = () => {
     return [setWebsiteTitle, { ...mutationResult }];
 };
 
-export const useSetConnectedContract = () => {
+export const useSetContractAddress = () => {
     const toast = useToast();
     const { setWebsite, website } = useCore();
 
-    const [setConnectedContract, { ...mutationResult }] = useMutation(
+    const [setContractAddress, { ...mutationResult }] = useMutation(
         UPDATE_CONNECTED_ADDRESS,
         {
             onCompleted: async (data) => {
                 let newWebsite = { ...website };
-                newWebsite.settings.connectedContractAddress = data.setConnectedContract;
+                newWebsite.settings.connectedContractAddress = data.setContractAddress;
                 setWebsite(newWebsite);
 
                 toast({
@@ -105,5 +105,5 @@ export const useSetConnectedContract = () => {
         }
     );
 
-    return [setConnectedContract, { ...mutationResult }];
+    return [setContractAddress, { ...mutationResult }];
 };

@@ -3,12 +3,12 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useSetWebsiteTitle, useSetConnectedContract } from '../../hooks/useWebsite'
+import { useSetWebsiteTitle, useSetContractAddress } from '../../hooks/useWebsite'
 
 const WebsiteDetails = () => {
     const { website, setIsEditModal, setEditModalData } = useCore();
     const [setWebsiteTitle, { loading: loading1 }] = useSetWebsiteTitle();
-    const [setConnectedContract, { loading: loading2 }] = useSetConnectedContract();
+    const [setContractAddress, { loading: loading2 }] = useSetContractAddress();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -68,10 +68,10 @@ const WebsiteDetails = () => {
                     <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({
                             item: 'Connected Contract',
-                            default: website?.title,
+                            default: website?.settings?.connectedContractAddress,
                             callback: (newValue) => {
                                 if (newValue === website?.settings?.connectedContractAddress) return;
-                                setConnectedContract({ variables: { websiteId: website?._id, address: newValue } })
+                                setContractAddress({ variables: { websiteId: website?._id, address: newValue } })
                             }
                         })
                         setIsEditModal(true);
