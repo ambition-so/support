@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
-import { GET_WEBSITE, UPDATE_WEBSITE_TITLE } from '../gql/website.gql'
+import { GET_WEBSITE, UPDATE_WEBSITE_TITLE, UPDATE_CONNECTED_ADDRESS, SET_SUBSCRIPTION, GET_WEBSITE_BY_ID } from '../gql/website.gql'
 import { useCore } from '../providers/CoreProvider'
 
 export const useGetWebsite = () => {
@@ -68,4 +68,111 @@ export const useSetWebsiteTitle = () => {
     );
 
     return [setWebsiteTitle, { ...mutationResult }];
+};
+
+export const useSetContractAddress = () => {
+    const toast = useToast();
+    const { setWebsite, website } = useCore();
+
+    const [setContractAddress, { ...mutationResult }] = useMutation(
+        UPDATE_CONNECTED_ADDRESS,
+        {
+            onCompleted: async (data) => {
+                let newWebsite = { ...website };
+
+                const settings = {
+                    connectedContractAddress: data.setContractAddress
+                }
+
+                newWebsite.settings = settings;
+                setWebsite(newWebsite);
+
+                toast({
+                    title: 'Success',
+                    description: 'Updated Website Connected Contract Address',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [setContractAddress, { ...mutationResult }];
+};
+
+export const useSetSubscription = () => {
+    const toast = useToast();
+    const { website, setWebsite } = useCore();
+
+    const [setSubscription, { ...mutationResult }] = useMutation(SET_SUBSCRIPTION, {
+        onCompleted: (data) => {
+            let newWebsite = { ...website };
+            newWebsite.isSubscribed = data.setWebsiteSubscription;
+            setWebsite(newWebsite);
+
+            toast({
+                title: 'Success',
+                description: 'Updated Website Subscription',
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
+        },
+        onError: async (err) => {
+            console.error(err);
+            toast({
+                title: 'Error',
+                description: !err.response ? err.message : err.response.data?.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
+        }
+    });
+
+    return [setSubscription, { ...mutationResult }];
+};
+
+export const useGetWebsiteById = () => {
+    const toast = useToast();
+    const { setWebsite, setWebsiteInput } = useCore();
+
+    const [getWebsiteById, { ...queryResult }] = useLazyQuery(
+        GET_WEBSITE_BY_ID,
+        {
+            onCompleted: async (data) => {
+                console.log(data.getWebsiteById);
+                setWebsite(data.getWebsiteById);
+                setWebsiteInput('');
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [getWebsiteById, { ...queryResult }];
 };

@@ -61,6 +61,7 @@ export const GET_CONTRACT = gql`
         getContract(address: $address) {
             id
             name
+            isSubscribed
             symbol
             type
             author
@@ -81,6 +82,33 @@ export const GET_CONTRACT = gql`
         }
     }
 `;
+
+export const GET_CONTRACT_BY_ID = gql`
+    query GetContractById($id: String!) {
+        getContractById(id: $id) {
+            id
+            name
+            isSubscribed
+            symbol
+            type
+            author
+            blockchain
+            address
+            embed {
+                css
+            }
+            nftCollection {
+                price
+                currency
+                size
+                royalty
+                baseUri
+                unRevealedBaseUri
+                whitelist
+            }
+        }
+    }
+`
 
 export const SET_BASE_URI = gql`
     mutation SetBaseUri($baseUri: String!, $id: ID!) {
@@ -158,5 +186,17 @@ export const SET_EMBED_BUTTON_CSS = gql`
                 css
             }
         }
+    }
+`;
+
+export const SET_OWNER_ID = gql`
+    mutation SetOwnerId($id: String!, $newId: String!) {
+        setOwnerId(id: $id, newId: $newId)
+    }
+`;
+
+export const SET_CONTRACT_SUBSCRIPTION = gql`
+    mutation SetContractSubscription($id: String!, $isSubscribed: Boolean!) {
+        setContractSubscription(id: $id, isSubscribed: $isSubscribed)
     }
 `;

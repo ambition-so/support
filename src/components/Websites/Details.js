@@ -3,11 +3,13 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useSetWebsiteTitle } from '../../hooks/useWebsite'
+import { useSetWebsiteTitle, useSetContractAddress, useSetSubscription } from '../../hooks/useWebsite'
 
 const WebsiteDetails = () => {
     const { website, setIsEditModal, setEditModalData } = useCore();
-    const [setWebsiteTitle, { loading }] = useSetWebsiteTitle();
+    const [setWebsiteTitle, { loading: loading1 }] = useSetWebsiteTitle();
+    const [setContractAddress, { loading: loading2 }] = useSetContractAddress();
+    const [setSubscription, { loading: loading3 }] = useSetSubscription();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -41,29 +43,44 @@ const WebsiteDetails = () => {
                             }
                         })
                         setIsEditModal(true);
-                    }} disabled={loading} isLoading={loading} loadingText='Saving'>
-                        Edit
+                    }} disabled={loading1} isLoading={loading1} loadingText='Saving'>
+                        Change Title
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='Author' secondary={website?.author} />
                 <DetailDisplay primary='isSubscribed' secondary={website?.isSubscribed ? 'true' : 'false'}>
-                    {/* <Button size='sm' variant='primary' onClick={() => {
+                    <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({
                             item: 'Website Subscription',
                             default: website?.isSubscribed,
                             callback: (newValue) => {
-                                console.log('not implemented yet')
+                                if (newValue === website?.isSubscribed) return;
+                                setSubscription({ variables: { websiteId: website?._id, isSubscribed: newValue === 'true' ? true : false }})
                             }
                         })
                         setIsEditModal(true);
-                    }}>
+                    }} disabled={loading3} isLoading={loading3} loadingText='Saving'>
                         Edit
-                    </Button> */}
+                    </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='isPublished' secondary={website?.isPublished ? 'true' : 'false'} />
                 <DetailDisplay primary='isCustomDomainActive' secondary={website?.isCustomDomainActive ? 'true' : 'false'} />
                 <DetailDisplay primary='Default Custom Domain' secondary={website?.customDomain} />
-                <DetailDisplay primary='Connected Contract' secondary={website?.settings?.connectedContractAddress} />
+                <DetailDisplay primary='Connected Contract' secondary={website?.settings?.connectedContractAddress}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Connected Contract',
+                            default: website?.settings?.connectedContractAddress,
+                            callback: (newValue) => {
+                                if (newValue === website?.settings?.connectedContractAddress) return;
+                                setContractAddress({ variables: { websiteId: website?._id, address: newValue } })
+                            }
+                        })
+                        setIsEditModal(true);
+                    }} disabled={loading2} isLoading={loading2} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
             </VStack>
         </Flex>
     ) : (

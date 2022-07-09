@@ -1,5 +1,5 @@
 import { Text, Flex, HStack } from '@chakra-ui/react'
-import { useGetContract } from '../../hooks/useContract'
+import { useGetContract, useGetContractById } from '../../hooks/useContract'
 import { useCore } from '../../providers/CoreProvider'
 import Details from './Details'
 import Search from '../Search'
@@ -7,6 +7,7 @@ import Search from '../Search'
 const Contracts = () => {
     const { contractInput, setContractInput } = useCore();
     const [getContract, { loading }] = useGetContract();
+    const [getContractById] = useGetContractById();
 
     return (
         <Flex flexDir='column' w='full'>
@@ -25,6 +26,7 @@ const Contracts = () => {
                     onChange={(e) => setContractInput(e.target.value)}
                     isLoading={loading}
                     searchArr={[
+                        { filter: 'ID', callback: () => getContractById({ variables: { id: contractInput } })},
                         { filter: 'Address', callback: () => getContract({ variables: { address: contractInput } })}
                     ]}
                 />
