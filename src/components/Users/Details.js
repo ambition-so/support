@@ -44,7 +44,7 @@ const UserDetails = () => {
                         })
                         setIsEditModal(true);
                     }} disabled={loading2} isLoading={loading2}>
-                        Change Email
+                        Edit
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='Nonce' secondary={user?.nonce} />

@@ -49,3 +49,9 @@ export const UPDATE_WEBSITE_TITLE = gql`
         setWebsiteTitle(websiteId: $websiteId, title: $title)
     }
 `;
+
+export const UPDATE_CONNECTED_ADDRESS = gql`
+    mutation SetConnectedContract($websiteId: String!, $address: String!) {
+        setConnectedContract(websiteId: $websiteId, address: $address)
+    }
+`;

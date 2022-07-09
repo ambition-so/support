@@ -3,11 +3,12 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useSetWebsiteTitle } from '../../hooks/useWebsite'
+import { useSetWebsiteTitle, useSetConnectedContract } from '../../hooks/useWebsite'
 
 const WebsiteDetails = () => {
     const { website, setIsEditModal, setEditModalData } = useCore();
-    const [setWebsiteTitle, { loading }] = useSetWebsiteTitle();
+    const [setWebsiteTitle, { loading: loading1 }] = useSetWebsiteTitle();
+    const [setConnectedContract, { loading: loading2 }] = useSetConnectedContract();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -41,8 +42,8 @@ const WebsiteDetails = () => {
                             }
                         })
                         setIsEditModal(true);
-                    }} disabled={loading} isLoading={loading} loadingText='Saving'>
-                        Edit
+                    }} disabled={loading1} isLoading={loading1} loadingText='Saving'>
+                        Change Title
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='Author' secondary={website?.author} />
@@ -63,7 +64,21 @@ const WebsiteDetails = () => {
                 <DetailDisplay primary='isPublished' secondary={website?.isPublished ? 'true' : 'false'} />
                 <DetailDisplay primary='isCustomDomainActive' secondary={website?.isCustomDomainActive ? 'true' : 'false'} />
                 <DetailDisplay primary='Default Custom Domain' secondary={website?.customDomain} />
-                <DetailDisplay primary='Connected Contract' secondary={website?.settings?.connectedContractAddress} />
+                <DetailDisplay primary='Connected Contract' secondary={website?.settings?.connectedContractAddress}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Connected Contract',
+                            default: website?.title,
+                            callback: (newValue) => {
+                                if (newValue === website?.settings?.connectedContractAddress) return;
+                                setConnectedContract({ variables: { websiteId: website?._id, address: newValue } })
+                            }
+                        })
+                        setIsEditModal(true);
+                    }} disabled={loading2} isLoading={loading2} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
             </VStack>
         </Flex>
     ) : (

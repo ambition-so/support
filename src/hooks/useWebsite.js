@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
-import { GET_WEBSITE, UPDATE_WEBSITE_TITLE } from '../gql/website.gql'
+import { GET_WEBSITE, UPDATE_WEBSITE_TITLE, UPDATE_CONNECTED_ADDRESS } from '../gql/website.gql'
 import { useCore } from '../providers/CoreProvider'
 
 export const useGetWebsite = () => {
@@ -68,4 +68,42 @@ export const useSetWebsiteTitle = () => {
     );
 
     return [setWebsiteTitle, { ...mutationResult }];
+};
+
+export const useSetConnectedContract = () => {
+    const toast = useToast();
+    const { setWebsite, website } = useCore();
+
+    const [setConnectedContract, { ...mutationResult }] = useMutation(
+        UPDATE_CONNECTED_ADDRESS,
+        {
+            onCompleted: async (data) => {
+                let newWebsite = { ...website };
+                newWebsite.settings.connectedContractAddress = data.setConnectedContract;
+                setWebsite(newWebsite);
+
+                toast({
+                    title: 'Success',
+                    description: 'Updated Website Connected Contract Address',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [setConnectedContract, { ...mutationResult }];
 };
