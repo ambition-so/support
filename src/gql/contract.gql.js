@@ -200,3 +200,9 @@ export const SET_CONTRACT_SUBSCRIPTION = gql`
         setContractSubscription(id: $id, isSubscribed: $isSubscribed)
     }
 `;
+
+export const SET_CONTRACT_NAME = gql`
+    mutation SetContractName($id: String!, $name: String!) {
+        setContractName(id: $id, name: $name)
+    }
+`

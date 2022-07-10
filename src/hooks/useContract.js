@@ -12,7 +12,8 @@ import {
     SET_EMBED_BUTTON_CSS,
     GET_CONTRACT_BY_ID,
     SET_OWNER_ID,
-    SET_CONTRACT_SUBSCRIPTION
+    SET_CONTRACT_SUBSCRIPTION,
+    SET_CONTRACT_NAME
 } from '../gql/contract.gql'
 import { useCore } from '../providers/CoreProvider'
 
@@ -327,4 +328,42 @@ export const useSetContractSubscription = () => {
     );
 
     return [setContractSubscription, { ...queryResult }];
+};
+
+export const useSetContractName = () => {
+    const toast = useToast();
+    const { contract, setContract } = useCore();
+
+    const [setContractName, { ...queryResult }] = useMutation(
+        SET_CONTRACT_NAME,
+        {
+            onCompleted: async (data) => {
+                let newContract = { ...contract }
+                newContract.name = data.setContractName;
+                setContract(newContract);
+
+                toast({
+                    title: 'Success',
+                    description: 'Updated Contract Name',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [setContractName, { ...queryResult }];
 };

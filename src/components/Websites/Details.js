@@ -4,12 +4,14 @@ import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
 import { useSetWebsiteTitle, useSetContractAddress, useSetSubscription } from '../../hooks/useWebsite'
+import { useGetUser } from '../../hooks/useUser'
 
 const WebsiteDetails = () => {
     const { website, setIsEditModal, setEditModalData } = useCore();
     const [setWebsiteTitle, { loading: loading1 }] = useSetWebsiteTitle();
     const [setContractAddress, { loading: loading2 }] = useSetContractAddress();
     const [setSubscription, { loading: loading3 }] = useSetSubscription();
+    const [getUser, { loading: loading6 }] = useGetUser();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -47,7 +49,11 @@ const WebsiteDetails = () => {
                         Change Title
                     </Button>
                 </DetailDisplay>
-                <DetailDisplay primary='Author' secondary={website?.author} />
+                <DetailDisplay primary='Author' secondary={website?.author}>
+                    <Button size='sm' variant='secondary' onClick={() => getUser({ variables: { id: website?.author } })} disabled={loading6} isLoading={loading6} loadingText='Saving'>
+                        Configure
+                    </Button>
+                </DetailDisplay>
                 <DetailDisplay primary='isSubscribed' secondary={website?.isSubscribed ? 'true' : 'false'}>
                     <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({

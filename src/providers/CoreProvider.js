@@ -10,6 +10,7 @@ export const CoreProvider = ({ children }) => {
     const [contract, setContract] = useState();
     const [contractInput, setContractInput] = useState('');
     const [website, setWebsite] = useState();
+    const [websites, setWebsites] = useState();
     const [websiteInput, setWebsiteInput] = useState('');
     const [user, setUser] = useState();
     const [userInput, setUserInput] = useState('');
@@ -38,7 +39,9 @@ export const CoreProvider = ({ children }) => {
         isEditModal,
         setIsEditModal,
         editModalData,
-        setEditModalData
+        setEditModalData,
+        websites,
+        setWebsites
     }
 
     return (

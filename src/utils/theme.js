@@ -84,6 +84,16 @@ const components = {
                 },
                 color: 'white',
             }),
+            secondary: (props) => ({
+                bg: 'orange.500',
+                _hover: {
+                    bg: 'orange.200',
+                    _disabled: {
+                        bg: 'orange.200',
+                    }
+                },
+                color: 'white',
+            }),
             danger: (props) => ({
                 bg: 'red.500',
                 _hover: {

@@ -1,17 +1,45 @@
-import { VStack, Text, useColorModeValue, Flex, Button } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { VStack, Text, useColorModeValue, Flex, Button, HStack } from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useUpdateContractAddress, useSetOwnerId, useSetContractSubscription, useSetBaseUri, useSetUnRevealedBaseUri } from '../../hooks/useContract'
+import { 
+    useUpdateContractAddress, 
+    useSetOwnerId, 
+    useSetContractSubscription, 
+    useSetBaseUri, 
+    useSetUnRevealedBaseUri,
+    useSetContractName
+} from '../../hooks/useContract'
+import {
+    useGetWebsitesByContractAddress
+} from '../../hooks/useWebsite'
+import { 
+    useGetUser
+} from '../../hooks/useUser'
+import { Link as RouterLink } from 'react-router-dom'
 
 const ContractDetails = () => {
-    const { contract, setIsEditModal, setEditModalData } = useCore();
+    const { contract, setIsEditModal, setEditModalData, websites, setWebsites, setWebsite, setUser } = useCore();
     const [updateContractAddress, { loading: loading1 }] = useUpdateContractAddress();
     const [setOwnerId, { loading: loading2 }] = useSetOwnerId();
     const [setContractSubscription, { loading: loading3 }] = useSetContractSubscription();
     const [setBaseUri, { loading: loading4 }] = useSetBaseUri();
     const [setUnRevealedBaseUri, { loading: loading5 }] = useSetUnRevealedBaseUri();
+    const [getWebsitesByContractAddress] = useGetWebsitesByContractAddress();
+    const [getUser, { loading: loading6 }] = useGetUser();
+    const [setContractName, { loading: loading7 }] = useSetContractName();
+
+    useEffect(() => {
+        if (!contract) return;
+        getConnectedWebsites();
+    }, [contract])
+
+    const getConnectedWebsites = async () => {
+        const res = await getWebsitesByContractAddress({ variables: { contractAddress: contract.address }});
+        setWebsites(res.data.getWebsitesByContractAddress);
+    }
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -34,7 +62,21 @@ const ContractDetails = () => {
             </Text>
             <VStack alignItems='flex-start' w='full' mt='1.5em'>
                 <DetailDisplay primary='Contract ID' secondary={contract?.id} />
-                <DetailDisplay primary='Name' secondary={contract?.name} />
+                <DetailDisplay primary='Name' secondary={contract?.name}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Contract Name',
+                            default: contract?.name,
+                            callback: (newValue) => {
+                                if (newValue === contract?.name) return;
+                                setContractName({ variables: { id: contract?.id, name: newValue }})
+                            }
+                        })
+                        setIsEditModal(true);
+                    }} disabled={loading7} isLoading={loading7} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
                 <DetailDisplay primary='isSubscribed' secondary={contract?.isSubscribed ? 'true' : 'false'}>
                     <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({
@@ -81,8 +123,35 @@ const ContractDetails = () => {
                     }} disabled={loading2} isLoading={loading2} loadingText='Saving'>
                         Edit
                     </Button>
+                    <Button size='sm' variant='secondary' onClick={() => getUser({ variables: { id: contract?.author } })} disabled={loading6} isLoading={loading6} loadingText='Saving'>
+                        Configure
+                    </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='Blockchain' secondary={contract?.blockchain} />
+            </VStack>
+            <VStack mt='2em' alignItems='flex-start'>
+                <Text fontSize='10pt'>
+                    Connected Website(s)
+                </Text>
+                {websites?.map((website, idx) => (
+                    <VStack w='full' key={idx}>
+                        <HStack w='full' spacing='1em'>
+                            <Flex>
+                                <DetailDisplay primary='Title' secondary={website.title} />
+                            </Flex>
+                            <Flex>
+                                <DetailDisplay primary='ID' secondary={website._id} />
+                            </Flex>
+                            <RouterLink to='/websites'>
+                                <Button size='sm' variant='secondary' onClick={() => {
+                                    setWebsite(website);
+                                }}>
+                                    Configure
+                                </Button>
+                            </RouterLink>
+                        </HStack>
+                    </VStack>
+                ))}
             </VStack>
             <VStack mt='2em' alignItems='flex-start'>
                 <Text fontSize='10pt'>
