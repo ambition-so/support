@@ -3,7 +3,16 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useUpdateContractAddress, useSetOwnerId, useSetContractSubscription, useSetBaseUri, useSetUnRevealedBaseUri } from '../../hooks/useContract'
+import { 
+    useUpdateContractAddress, 
+    useSetOwnerId, 
+    useSetContractSubscription, 
+    useSetBaseUri, 
+    useSetUnRevealedBaseUri
+} from '../../hooks/useContract'
+import {
+    useGetWebsitesByContractAddress
+} from '../../hooks/useWebsite'
 
 const ContractDetails = () => {
     const { contract, setIsEditModal, setEditModalData } = useCore();
@@ -12,6 +21,7 @@ const ContractDetails = () => {
     const [setContractSubscription, { loading: loading3 }] = useSetContractSubscription();
     const [setBaseUri, { loading: loading4 }] = useSetBaseUri();
     const [setUnRevealedBaseUri, { loading: loading5 }] = useSetUnRevealedBaseUri();
+    useGetWebsitesByContractAddress();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -83,6 +93,12 @@ const ContractDetails = () => {
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='Blockchain' secondary={contract?.blockchain} />
+            </VStack>
+            <VStack mt='2em' alignItems='flex-start'>
+                <Text fontSize='10pt'>
+                    Connected Website(s)
+                </Text>
+                
             </VStack>
             <VStack mt='2em' alignItems='flex-start'>
                 <Text fontSize='10pt'>

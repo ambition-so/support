@@ -1,6 +1,13 @@
-import { useLazyQuery, useMutation } from '@apollo/client'
+import { useLazyQuery, useMutation, useQuery } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
-import { GET_WEBSITE, UPDATE_WEBSITE_TITLE, UPDATE_CONNECTED_ADDRESS, SET_SUBSCRIPTION, GET_WEBSITE_BY_ID } from '../gql/website.gql'
+import { 
+    GET_WEBSITE, 
+    UPDATE_WEBSITE_TITLE, 
+    UPDATE_CONNECTED_ADDRESS, 
+    SET_SUBSCRIPTION, 
+    GET_WEBSITE_BY_ID,
+    GET_WEBSITES_BY_CONTRACT_ADDRESS
+} from '../gql/website.gql'
 import { useCore } from '../providers/CoreProvider'
 
 export const useGetWebsite = () => {
@@ -175,4 +182,31 @@ export const useGetWebsiteById = () => {
     );
 
     return [getWebsiteById, { ...queryResult }];
+};
+
+export const useGetWebsitesByContractAddress = () => {
+    const toast = useToast();
+    const { setWebsites } = useCore();
+
+    const [getWebsitesByContractAddress, { ...queryResult }] = useQuery(
+        GET_WEBSITES_BY_CONTRACT_ADDRESS,
+        {
+            onCompleted: async (data) => {
+                setWebsites(data.getWebsitesByContractAddress);
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [getWebsitesByContractAddress, { ...queryResult }];
 };

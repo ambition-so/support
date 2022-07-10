@@ -11,6 +11,10 @@ const changeLogsArr = [
         'edit contract unrevelead uri', 'edit contract base uri', 'get website by id', 'edit website subscription', 'edit website contract', 'edit user email'], 
         date: 'July 08, 2022' 
     },
+    { 
+        logs: ['contract transform to v2', 'edit contract name', 'list websites in contract dashboard', 'Deletion of Contract'], 
+        date: 'June 09, 2022' 
+    },
 ]
 
 const Dashboard = () => {

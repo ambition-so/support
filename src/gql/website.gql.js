@@ -105,3 +105,49 @@ export const SET_SUBSCRIPTION = gql`
         setSubscription(websiteId: $websiteId, isSubscribed: $isSubscribed)
     }
 `;
+
+export const GET_WEBSITES_BY_CONTRACT_ADDRESS = gql`
+    query GetWebsitesByContractAddress($contractAddress: String!) {
+        getWebsitesByContractAddress(contractAddress: $contractAddress) {
+            _id
+            author
+            title
+            isPublished
+            isSubscribed
+            pages {
+                name
+                data
+            }
+            customDomain
+            isCustomDomainActive
+            domains {
+                domain
+                isActive
+                isCustomDomainSslGenerated
+            }
+            settings {
+                connectedContractAddress
+                abi
+            }
+            favicon
+            seo {
+                title
+                previewTitle
+                description
+                keywords
+                language
+                robots
+                url
+                image
+            }
+            published {
+                name
+                data
+            }
+            custom {
+                head
+                body
+            }
+        }
+    }
+`
