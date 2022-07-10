@@ -1,4 +1,5 @@
-import { VStack, Text, useColorModeValue, Flex, Button } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { VStack, Text, useColorModeValue, Flex, Button, Tag, TagLabel, HStack } from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
@@ -11,18 +12,31 @@ import {
     useSetUnRevealedBaseUri
 } from '../../hooks/useContract'
 import {
-    useGetWebsitesByContractAddress
+    useGetWebsitesByContractAddress,
+    useSetWebsiteTitle
 } from '../../hooks/useWebsite'
+import { Link as RouterLink } from 'react-router-dom'
 
 const ContractDetails = () => {
-    const { contract, setIsEditModal, setEditModalData } = useCore();
+    const { contract, setIsEditModal, setEditModalData, websites, setWebsites, setWebsite } = useCore();
     const [updateContractAddress, { loading: loading1 }] = useUpdateContractAddress();
     const [setOwnerId, { loading: loading2 }] = useSetOwnerId();
     const [setContractSubscription, { loading: loading3 }] = useSetContractSubscription();
     const [setBaseUri, { loading: loading4 }] = useSetBaseUri();
     const [setUnRevealedBaseUri, { loading: loading5 }] = useSetUnRevealedBaseUri();
-    useGetWebsitesByContractAddress();
+    const [getWebsitesByContractAddress] = useGetWebsitesByContractAddress();
 
+    useEffect(() => {
+        if (!contract) return;
+        getConnectedWebsites();
+    }, [contract])
+
+    const getConnectedWebsites = async () => {
+        const res = await getWebsitesByContractAddress({ variables: { contractAddress: contract.address }});
+        setWebsites(res.data.getWebsitesByContractAddress);
+    }
+
+    const [setWebsiteTitle, { loading: loading7 }] = useSetWebsiteTitle();
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
     return contract ? (
@@ -98,7 +112,25 @@ const ContractDetails = () => {
                 <Text fontSize='10pt'>
                     Connected Website(s)
                 </Text>
-                
+                {websites?.map((website, idx) => (
+                    <VStack w='full' key={idx}>
+                        <HStack w='full' spacing='1em'>
+                            <Flex>
+                                <DetailDisplay primary='Title' secondary={website.title} />
+                            </Flex>
+                            <Flex>
+                                <DetailDisplay primary='ID' secondary={website._id} />
+                            </Flex>
+                            <RouterLink to='/websites'>
+                                <Button size='sm' variant='primary' onClick={() => {
+                                    setWebsite(website);
+                                }}>
+                                    Configure
+                                </Button>
+                            </RouterLink>
+                        </HStack>
+                    </VStack>
+                ))}
             </VStack>
             <VStack mt='2em' alignItems='flex-start'>
                 <Text fontSize='10pt'>

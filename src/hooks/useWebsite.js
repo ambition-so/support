@@ -188,10 +188,11 @@ export const useGetWebsitesByContractAddress = () => {
     const toast = useToast();
     const { setWebsites } = useCore();
 
-    const [getWebsitesByContractAddress, { ...queryResult }] = useQuery(
+    const [getWebsite, { ...queryResult }] = useLazyQuery(
         GET_WEBSITES_BY_CONTRACT_ADDRESS,
         {
             onCompleted: async (data) => {
+                console.log(data)
                 setWebsites(data.getWebsitesByContractAddress);
             },
             onError: async (err) => {
@@ -208,5 +209,5 @@ export const useGetWebsitesByContractAddress = () => {
         }
     );
 
-    return [getWebsitesByContractAddress, { ...queryResult }];
+    return [getWebsite, { ...queryResult }];
 };
