@@ -14,16 +14,20 @@ import {
 import {
     useGetWebsitesByContractAddress
 } from '../../hooks/useWebsite'
+import { 
+    useGetUser
+} from '../../hooks/useUser'
 import { Link as RouterLink } from 'react-router-dom'
 
 const ContractDetails = () => {
-    const { contract, setIsEditModal, setEditModalData, websites, setWebsites, setWebsite } = useCore();
+    const { contract, setIsEditModal, setEditModalData, websites, setWebsites, setWebsite, setUser } = useCore();
     const [updateContractAddress, { loading: loading1 }] = useUpdateContractAddress();
     const [setOwnerId, { loading: loading2 }] = useSetOwnerId();
     const [setContractSubscription, { loading: loading3 }] = useSetContractSubscription();
     const [setBaseUri, { loading: loading4 }] = useSetBaseUri();
     const [setUnRevealedBaseUri, { loading: loading5 }] = useSetUnRevealedBaseUri();
     const [getWebsitesByContractAddress] = useGetWebsitesByContractAddress();
+    const [getUser, { loading: loading6 }] = useGetUser();
 
     useEffect(() => {
         if (!contract) return;
@@ -103,6 +107,9 @@ const ContractDetails = () => {
                     }} disabled={loading2} isLoading={loading2} loadingText='Saving'>
                         Edit
                     </Button>
+                    <Button size='sm' variant='secondary' onClick={() => getUser({ variables: { id: contract?.author } })}>
+                        Configure
+                    </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='Blockchain' secondary={contract?.blockchain} />
             </VStack>
@@ -120,7 +127,7 @@ const ContractDetails = () => {
                                 <DetailDisplay primary='ID' secondary={website._id} />
                             </Flex>
                             <RouterLink to='/websites'>
-                                <Button size='sm' variant='primary' onClick={() => {
+                                <Button size='sm' variant='secondary' onClick={() => {
                                     setWebsite(website);
                                 }}>
                                     Configure
