@@ -9,7 +9,8 @@ import {
     useSetOwnerId, 
     useSetContractSubscription, 
     useSetBaseUri, 
-    useSetUnRevealedBaseUri
+    useSetUnRevealedBaseUri,
+    useSetContractName
 } from '../../hooks/useContract'
 import {
     useGetWebsitesByContractAddress
@@ -28,6 +29,7 @@ const ContractDetails = () => {
     const [setUnRevealedBaseUri, { loading: loading5 }] = useSetUnRevealedBaseUri();
     const [getWebsitesByContractAddress] = useGetWebsitesByContractAddress();
     const [getUser, { loading: loading6 }] = useGetUser();
+    const [setContractName, { loading: loading7 }] = useSetContractName();
 
     useEffect(() => {
         if (!contract) return;
@@ -60,7 +62,21 @@ const ContractDetails = () => {
             </Text>
             <VStack alignItems='flex-start' w='full' mt='1.5em'>
                 <DetailDisplay primary='Contract ID' secondary={contract?.id} />
-                <DetailDisplay primary='Name' secondary={contract?.name} />
+                <DetailDisplay primary='Name' secondary={contract?.name}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Contract Name',
+                            default: contract?.name,
+                            callback: (newValue) => {
+                                if (newValue === contract?.name) return;
+                                setContractName({ variables: { id: contract?.id, name: newValue }})
+                            }
+                        })
+                        setIsEditModal(true);
+                    }} disabled={loading7} isLoading={loading7} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
                 <DetailDisplay primary='isSubscribed' secondary={contract?.isSubscribed ? 'true' : 'false'}>
                     <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({
@@ -107,7 +123,7 @@ const ContractDetails = () => {
                     }} disabled={loading2} isLoading={loading2} loadingText='Saving'>
                         Edit
                     </Button>
-                    <Button size='sm' variant='secondary' onClick={() => getUser({ variables: { id: contract?.author } })}>
+                    <Button size='sm' variant='secondary' onClick={() => getUser({ variables: { id: contract?.author } })} disabled={loading6} isLoading={loading6} loadingText='Saving'>
                         Configure
                     </Button>
                 </DetailDisplay>
