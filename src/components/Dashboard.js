@@ -12,7 +12,7 @@ const changeLogsArr = [
         date: 'July 08, 2022' 
     },
     { 
-        logs: ['contract transform to v2', 'edit contract name', 'list websites in contract dashboard', 'Deletion of Contract'], 
+        logs: ['contract transform to v2', 'edit contract name', 'list websites in contract dashboard', 'deletion of contract', 'edit contract type'], 
         date: 'June 09, 2022' 
     },
 ]

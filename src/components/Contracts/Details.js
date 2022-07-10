@@ -114,7 +114,21 @@ const ContractDetails = () => {
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='Symbol' secondary={contract?.symbol} />
-                <DetailDisplay primary='Type' secondary={contract?.type} />
+                <DetailDisplay primary='Type' secondary={contract?.type}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Contract Type',
+                            default: contract?.type,
+                            callback: (newValue) => {
+                                if (newValue === contract?.type) return;
+                                setContractType({ variables: { id: contract?.id, type: newValue }})
+                            }
+                        })
+                        setIsEditModal(true);
+                    }} disabled={loading9} isLoading={loading9} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
                 <DetailDisplay primary='Contract Address' secondary={contract?.address}>
                     <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({
