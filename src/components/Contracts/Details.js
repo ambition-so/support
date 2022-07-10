@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { VStack, Text, useColorModeValue, Flex, Button, Tag, TagLabel, HStack } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex, Button, HStack } from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
@@ -12,8 +12,7 @@ import {
     useSetUnRevealedBaseUri
 } from '../../hooks/useContract'
 import {
-    useGetWebsitesByContractAddress,
-    useSetWebsiteTitle
+    useGetWebsitesByContractAddress
 } from '../../hooks/useWebsite'
 import { Link as RouterLink } from 'react-router-dom'
 
@@ -36,7 +35,6 @@ const ContractDetails = () => {
         setWebsites(res.data.getWebsitesByContractAddress);
     }
 
-    const [setWebsiteTitle, { loading: loading7 }] = useSetWebsiteTitle();
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
     return contract ? (
