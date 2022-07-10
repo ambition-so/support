@@ -10,7 +10,9 @@ import {
     useSetContractSubscription, 
     useSetBaseUri, 
     useSetUnRevealedBaseUri,
-    useSetContractName
+    useSetContractName,
+    useDeleteContract,
+    useSetContractType
 } from '../../hooks/useContract'
 import {
     useGetWebsitesByContractAddress
@@ -30,6 +32,8 @@ const ContractDetails = () => {
     const [getWebsitesByContractAddress] = useGetWebsitesByContractAddress();
     const [getUser, { loading: loading6 }] = useGetUser();
     const [setContractName, { loading: loading7 }] = useSetContractName();
+    const [deleteContract, { loading: loading8 }] = useDeleteContract();
+    const [setContractType, { loading: loading9 }] = useSetContractType();
 
     useEffect(() => {
         if (!contract) return;
@@ -54,12 +58,29 @@ const ContractDetails = () => {
             mt='2em'
         >
             <EditModal />
-            <Text fontSize='10pt'>
-                Details
-            </Text>
-            <Text fontSize='9pt'>
-                Details of the ERC721A Contract you searched for
-            </Text>
+            <HStack w='full' justifyContent='space-between'>
+                <Flex flexDir='column'>
+                    <Text fontSize='10pt'>
+                        Details
+                    </Text>
+                    <Text fontSize='9pt'>
+                        Details of the ERC721A Contract you searched for
+                    </Text>
+                </Flex>
+                <HStack spacing='1em'>
+                    <Button variant='secondary' size='sm' onClick={() => {
+                        if (contract?.type === 'erc721a') return;
+                        setContractType({ variables: { id: contract?.id, type: 'erc721a' }})
+                    }} disabled={loading9 || contract?.type === 'erc721a'} isLoading={loading9} loadingText='Coverting'>
+                        Convert to V2
+                    </Button>
+                    <Button variant='danger' size='sm' onClick={() => {
+                        deleteContract({ variables: { id: contract?.id }})
+                    }} disabled={loading8} isLoading={loading8} loadingText='Deleting'>
+                        Delete
+                    </Button>
+                </HStack>
+            </HStack>
             <VStack alignItems='flex-start' w='full' mt='1.5em'>
                 <DetailDisplay primary='Contract ID' secondary={contract?.id} />
                 <DetailDisplay primary='Name' secondary={contract?.name}>

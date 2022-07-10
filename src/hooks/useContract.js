@@ -13,7 +13,8 @@ import {
     GET_CONTRACT_BY_ID,
     SET_OWNER_ID,
     SET_CONTRACT_SUBSCRIPTION,
-    SET_CONTRACT_NAME
+    SET_CONTRACT_NAME,
+    SET_CONTRACT_TYPE
 } from '../gql/contract.gql'
 import { useCore } from '../providers/CoreProvider'
 
@@ -82,21 +83,6 @@ export const useUpdateContractAddress = () => {
     );
 
     return [updateContractAddress, { ...mutationResult }];
-};
-
-export const useDeleteContract = ({ onCompleted, onError }) => {
-    
-    const [deleteContract, { ...mutationResult }] = useMutation(
-        DELETE_CONTRACT,
-        {
-            onCompleted: (data) => {
-                
-            },
-            onError,
-        }
-    );
-
-    return [deleteContract, { ...mutationResult }];
 };
 
 export const useSetBaseUri = () => {
@@ -367,3 +353,77 @@ export const useSetContractName = () => {
 
     return [setContractName, { ...queryResult }];
 };
+
+export const useDeleteContract = () => {
+    const toast = useToast();
+    const { setContract } = useCore();
+
+    const [deleteContract, { ...queryResult }] = useMutation(
+        DELETE_CONTRACT,
+        {
+            onCompleted: async (data) => {
+                setContract(null);
+
+                toast({
+                    title: 'Success',
+                    description: 'Updated Contract Name',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [deleteContract, { ...queryResult }];
+};
+
+export const useSetContractType = () => {
+    const toast = useToast();
+    const { contract, setContract } = useCore();
+
+    const [setContractType, { ...queryResult }] = useMutation(
+        SET_CONTRACT_TYPE,
+        {
+            onCompleted: async (data) => {
+                let newContract = { ...contract }
+                newContract.type = data.setContractType;
+                setContract(newContract);
+
+                toast({
+                    title: 'Success',
+                    description: 'Updated Contract Type',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [setContractType, { ...queryResult }];
+}

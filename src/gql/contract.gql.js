@@ -206,3 +206,9 @@ export const SET_CONTRACT_NAME = gql`
         setContractName(id: $id, name: $name)
     }
 `
+
+export const SET_CONTRACT_TYPE = gql`
+    mutation SetContractType($id: String!, $type: String!) {
+        setContractType(id: $id, type: $type)
+    }
+`
