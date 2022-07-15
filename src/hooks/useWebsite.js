@@ -192,7 +192,7 @@ export const useGetWebsitesByContractAddress = () => {
         GET_WEBSITES_BY_CONTRACT_ADDRESS,
         {
             onCompleted: async (data) => {
-                console.log(data)
+                console.log(data.getWebsitesByContractAddress)
                 setWebsites(data.getWebsitesByContractAddress);
             },
             onError: async (err) => {

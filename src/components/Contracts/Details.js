@@ -23,7 +23,7 @@ import {
 import { Link as RouterLink } from 'react-router-dom'
 
 const ContractDetails = () => {
-    const { contract, setIsEditModal, setEditModalData, websites, setWebsites, setWebsite, setUser } = useCore();
+    const { contract, setIsEditModal, setEditModalData, websites, setWebsites, setWebsite, contractOwner } = useCore();
     const [updateContractAddress, { loading: loading1 }] = useUpdateContractAddress();
     const [setOwnerId, { loading: loading2 }] = useSetOwnerId();
     const [setContractSubscription, { loading: loading3 }] = useSetContractSubscription();
@@ -190,7 +190,7 @@ const ContractDetails = () => {
             </VStack>
             <VStack mt='2em' alignItems='flex-start'>
                 <Text fontSize='10pt'>
-                    Collection Information
+                   Contract Information
                 </Text>
                 <DetailDisplay primary='Price' secondary={contract?.nftCollection?.price} />
                 <DetailDisplay primary='Currency' secondary={contract?.nftCollection?.currency} />
@@ -225,6 +225,7 @@ const ContractDetails = () => {
                         Edit
                     </Button>
                 </DetailDisplay>
+                <DetailDisplay primary='Contract Owner' secondary={contractOwner} />
             </VStack>
         </Flex>
     ) : (

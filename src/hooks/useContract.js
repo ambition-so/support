@@ -17,10 +17,12 @@ import {
     SET_CONTRACT_TYPE
 } from '../gql/contract.gql'
 import { useCore } from '../providers/CoreProvider'
+import ERC721 from '../libs/abi/ambitionNFTPresale.json';
+import ERC721a from '../libs/abi/AmbitionCreatorImpl.json';
 
 export const useGetContract = () => {
     const toast = useToast();
-    const { setContract, setContractInput } = useCore();
+    const { setContract, setContractInput, setContractOwner } = useCore();
 
     const [getContract, { ...queryResult }] = useLazyQuery(
         GET_CONTRACT,
@@ -29,6 +31,11 @@ export const useGetContract = () => {
                 console.log(data.getContract);
                 setContract(data.getContract);
                 setContractInput('');
+
+                // Getting Contract Owner
+
+                const contractOwner = await getContractOwner(data.getContract);
+                setContractOwner(contractOwner);
             },
             onError: async (err) => {
                 console.error(err);
@@ -45,6 +52,40 @@ export const useGetContract = () => {
     );
 
     return [getContract, { ...queryResult }];
+};
+
+export const useGetContractById = () => {
+    const toast = useToast();
+    const { setContract, setContractInput, setContractOwner } = useCore();
+
+    const [getContractById, { ...queryResult }] = useLazyQuery(
+        GET_CONTRACT_BY_ID,
+        {
+            onCompleted: async (data) => {
+                console.log(data.getContractById);
+                setContract(data.getContractById);
+                setContractInput('');
+
+                // Getting Contract Owner
+
+                const contractOwner = await getContractOwner(data.getContractById);
+                setContractOwner(contractOwner);
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [getContractById, { ...queryResult }];
 };
 
 export const useUpdateContractAddress = () => {
@@ -217,35 +258,6 @@ export const useUpdateContractDetails = ({ onCompleted, onError }) => {
     );
 
     return [updateContractDetails, { ...mutationResult }];
-};
-
-export const useGetContractById = () => {
-    const toast = useToast();
-    const { setContract, setContractInput } = useCore();
-
-    const [getContractById, { ...queryResult }] = useLazyQuery(
-        GET_CONTRACT_BY_ID,
-        {
-            onCompleted: async (data) => {
-                console.log(data.getContractById);
-                setContract(data.getContractById);
-                setContractInput('');
-            },
-            onError: async (err) => {
-                console.error(err);
-                toast({
-                    title: 'Error',
-                    description: !err.response ? err.message : err.response.data?.message,
-                    status: 'error',
-                    duration: 3000,
-                    isClosable: true,
-                    position: 'bottom-center'
-                })
-            }
-        }
-    );
-
-    return [getContractById, { ...queryResult }];
 };
 
 export const useSetOwnerId = () => {
@@ -426,4 +438,29 @@ export const useSetContractType = () => {
     );
 
     return [setContractType, { ...queryResult }];
+}
+
+const getContractOwner = async (contractData) => {
+    if (!contractData) return 'Error Getting Contract Owner';
+
+    try {
+        const { address, type, blockchain } = contractData;
+
+        if (blockchain === 'solana' || blockchain === 'solanadevnet') return 'Error Getting Contract Owner'
+
+        let contract;
+        if (type === 'erc721a') {
+            contract = new window.web3.eth.Contract(ERC721a.abi, address);
+        } else {
+            contract = new window.web3.eth.Contract(ERC721.abi, address);
+        }
+    
+        const contractOwner = await contract.methods.owner().call();
+
+        return contractOwner;
+    }
+    catch (err) {
+        console.error(err);
+        return 'Error Getting Contract Owner';
+    }
 }

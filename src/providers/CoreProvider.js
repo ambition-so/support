@@ -8,6 +8,7 @@ export const CoreProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [address, setAddress] = useState('');
     const [contract, setContract] = useState();
+    const [contractOwner, setContractOwner] = useState('');
     const [contractInput, setContractInput] = useState('');
     const [website, setWebsite] = useState();
     const [websites, setWebsites] = useState();
@@ -41,7 +42,9 @@ export const CoreProvider = ({ children }) => {
         editModalData,
         setEditModalData,
         websites,
-        setWebsites
+        setWebsites,
+        contractOwner,
+        setContractOwner
     }
 
     return (
