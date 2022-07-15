@@ -161,7 +161,7 @@ export const useGetUserByCustomerID = () => {
         GET_USER_BY_CUSTOMER_ID,
         {
             onCompleted: async (data) => {
-                setUser(data.getUser);
+                setUser(data.getUserByCustomerID);
                 setUserInput('');
             },
             onError: async (err) => {
