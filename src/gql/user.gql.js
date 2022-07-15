@@ -46,3 +46,17 @@ export const GET_NONCE = gql`
         getNonceByAddress(address: $address)
     }
 `;
+
+export const GET_USER_BY_CUSTOMER_ID = gql`
+    query GetUserByCustomerID($customerId: String!) {
+        getUserByCustomerID(customerId: $customerId) {
+            id
+            nonce
+            address
+            email
+            password
+            name
+            stripeCustomerId
+        }
+    }
+`
