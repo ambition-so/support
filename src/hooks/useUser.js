@@ -1,6 +1,6 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
-import { GET_USER, GET_4_DIGITS, CHANGE_EMAIL, VERIFY_SIGNATURE, GET_NONCE } from '../gql/user.gql'
+import { GET_USER, GET_4_DIGITS, CHANGE_EMAIL, VERIFY_SIGNATURE, GET_NONCE, GET_USER_BY_CUSTOMER_ID } from '../gql/user.gql'
 import { useCore } from '../providers/CoreProvider'
 import { useAuth } from '../providers/AuthProvider'
 
@@ -151,4 +151,32 @@ export const useGetNonceByAddress = () => {
     });
 
     return [getNonceByAddress, { ...mutationResult }];
+};
+
+export const useGetUserByCustomerID = () => {
+    const toast = useToast();
+    const { setUser, setUserInput } = useCore();
+
+    const [getUserByCustomerID, { ...queryResult }] = useLazyQuery(
+        GET_USER_BY_CUSTOMER_ID,
+        {
+            onCompleted: async (data) => {
+                setUser(data.getUser);
+                setUserInput('');
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [getUserByCustomerID, { ...queryResult }];
 };
