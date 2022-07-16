@@ -19,6 +19,10 @@ const changeLogsArr = [
         logs: ['search user by stripe customer id', 'view contract owner address'], 
         date: 'June 14, 2022' 
     },
+    { 
+        logs: ['user subscriptions'], 
+        date: 'June 15, 2022' 
+    },
 ]
 
 const Dashboard = () => {
