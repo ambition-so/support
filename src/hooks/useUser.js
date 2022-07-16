@@ -1,6 +1,14 @@
 import { useLazyQuery, useMutation } from '@apollo/client'
 import { useToast } from '@chakra-ui/react'
-import { GET_USER, GET_4_DIGITS, CHANGE_EMAIL, VERIFY_SIGNATURE, GET_NONCE, GET_USER_BY_CUSTOMER_ID } from '../gql/user.gql'
+import { 
+    GET_USER, 
+    GET_4_DIGITS, 
+    CHANGE_EMAIL, 
+    VERIFY_SIGNATURE, 
+    GET_NONCE, 
+    GET_USER_BY_CUSTOMER_ID,
+    GET_USER_SUBSCRIPTIONS
+} from '../gql/user.gql'
 import { useCore } from '../providers/CoreProvider'
 import { useAuth } from '../providers/AuthProvider'
 
@@ -179,4 +187,32 @@ export const useGetUserByCustomerID = () => {
     );
 
     return [getUserByCustomerID, { ...queryResult }];
+};
+
+export const useGetUserSubscriptions = () => {
+    const toast = useToast();
+    const { setUserSubscriptions } = useCore();
+
+    const [getUserSubscriptions, { ...queryResult }] = useLazyQuery(
+        GET_USER_SUBSCRIPTIONS,
+        {
+            onCompleted: async (data) => {
+                console.log(data.getUserSubscriptions)
+                setUserSubscriptions(data.getUserSubscriptions)
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [getUserSubscriptions, { ...queryResult }];
 };

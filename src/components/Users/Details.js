@@ -1,16 +1,28 @@
-import { VStack, Text, useColorModeValue, Flex, Button } from '@chakra-ui/react';
+import { useEffect } from 'react';
+import { VStack, Text, useColorModeValue, Flex, Button, Tag, TagLabel } from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
-import { useGetLast4Digits, useChangeEmail } from '../../hooks/useUser'
+import { useGetLast4Digits, useChangeEmail, useGetUserSubscriptions } from '../../hooks/useUser'
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
 
 const UserDetails = () => {
-    const { user, setIsEditModal, setEditModalData } = useCore();
+    const { user, setIsEditModal, setEditModalData, setUserSubscriptions, userSubscriptions } = useCore();
     const [getLast4Digits, { loading: loading1 }] = useGetLast4Digits();
     const [changeEmail, { loading: loading2 }] = useChangeEmail();
-
+    const [getUserSubscriptions] =  useGetUserSubscriptions();
+    
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
+
+    useEffect(() => {
+        if (!user) return;
+        getSubscriptions();
+    }, [user])
+
+    const getSubscriptions = async () => {
+        const res = await getUserSubscriptions({ variables: { customerId: user.stripeCustomerId }});
+        setUserSubscriptions(res.data.getUserSubscriptions);
+    }
 
     return user ? (
         <Flex 
@@ -54,6 +66,18 @@ const UserDetails = () => {
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='Address' secondary={user?.address} />
+                <DetailDisplay primary='Subscriptions' disableCopy noTag>
+                    {userSubscriptions?.map((sub, idx) => (
+                        <Tag key={idx} bg={sub.isCanceled ? 'red.500' : 'green.500'}>
+                            <TagLabel>
+                                {{
+                                    'prod_L0hlfe2EeLafmO': 'Contract',
+                                    'prod_L2PjChEBAf0fur': 'Website'
+                                }[sub.productId]}
+                            </TagLabel>
+                        </Tag>
+                    ))}
+                </DetailDisplay>
             </VStack>
         </Flex>
     ) : (
