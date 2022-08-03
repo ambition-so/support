@@ -28,7 +28,7 @@ const changeLogsArr = [
         date: 'Aug 02, 2022' 
     },
     { 
-        logs: ['edit website author'], 
+        logs: ['edit website author', 'find user by subscription id'], 
         date: 'Aug 03, 2022' 
     },
 ]
