@@ -1,5 +1,9 @@
 import { Text, Flex, HStack } from '@chakra-ui/react'
-import { useGetUser, useGetUserByCustomerID } from '../../hooks/useUser'
+import { 
+    useGetUser, 
+    useGetUserByCustomerID,
+    useGetUserBySubscriptionID
+} from '../../hooks/useUser'
 import { useCore } from '../../providers/CoreProvider'
 import Details from './Details'
 import Search from '../Search'
@@ -8,6 +12,7 @@ const Users = () => {
     const { userInput, setUserInput } = useCore();
     const [getUser, { loading }] = useGetUser();
     const [getUserByCustomerID, { loading: loading2 }] = useGetUserByCustomerID();
+    const [getUserBySubscriptionID, { loading: loading3 }] = useGetUserBySubscriptionID();
 
     return (
         <Flex flexDir='column' w='full'>
@@ -24,10 +29,11 @@ const Users = () => {
                     placeholder='Search User' 
                     value={userInput} 
                     onChange={(e) => setUserInput(e.target.value)}
-                    isLoading={loading || loading2}
+                    isLoading={loading || loading2 || loading3}
                     searchArr={[
                         { filter: 'ID', callback: () => getUser({ variables: { id: userInput } })},
-                        { filter: 'Customer ID', callback: () => getUserByCustomerID({ variables: { customerId: userInput } })}
+                        { filter: 'Customer ID', callback: () => getUserByCustomerID({ variables: { customerId: userInput } })},
+                        { filter: 'Subscription ID', callback: () => getUserBySubscriptionID({ variables: { subscriptionId: userInput } })}
                     ]}
                 />
             </HStack>

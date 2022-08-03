@@ -8,7 +8,8 @@ import {
     GET_NONCE, 
     GET_USER_BY_CUSTOMER_ID,
     GET_USER_SUBSCRIPTIONS,
-    REFUND_USER_SUBSCRIPTION
+    REFUND_USER_SUBSCRIPTION,
+    GET_USER_BY_SUBSCRIPTION_ID
 } from '../gql/user.gql'
 import { useCore } from '../providers/CoreProvider'
 import { useAuth } from '../providers/AuthProvider'
@@ -247,4 +248,32 @@ export const useRefundUserSubscription = () => {
     });
 
     return [refundUserSubscription, { ...mutationResult }];
+};
+
+export const useGetUserBySubscriptionID = () => {
+    const toast = useToast();
+    const { setUser, setUserInput } = useCore();
+
+    const [getUserBySubscriptionID, { ...queryResult }] = useLazyQuery(
+        GET_USER_BY_SUBSCRIPTION_ID,
+        {
+            onCompleted: async (data) => {
+                setUser(data.getUserBySubscriptionID);
+                setUserInput('');
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [getUserBySubscriptionID, { ...queryResult }];
 };
