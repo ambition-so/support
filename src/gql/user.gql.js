@@ -70,9 +70,16 @@ export const GET_USER_SUBSCRIPTIONS = gql`
             productType
             price
             startDate
+            invoiceId
             endDate
             isCanceled
             canceledDate
         }
     }
 `
+
+export const REFUND_USER_SUBSCRIPTION = gql`
+    mutation RefundUserSubscription($subscriptionId: String!, $invoiceId: String!) {
+        refundUserSubscription(subscriptionId: $subscriptionId, invoiceId: $invoiceId)
+    }
+`;

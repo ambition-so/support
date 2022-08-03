@@ -1,16 +1,26 @@
 import { useEffect } from 'react';
-import { VStack, Text, useColorModeValue, Flex, Button, Tag, TagLabel } from '@chakra-ui/react';
+import { VStack, Text, useColorModeValue, Flex, Button, Tag, 
+    TagLabel, Menu, MenuButton, MenuList, MenuItem, HStack, MenuDivider 
+} from '@chakra-ui/react';
 import { useCore } from '../../providers/CoreProvider';
-import { useGetLast4Digits, useChangeEmail, useGetUserSubscriptions } from '../../hooks/useUser'
+import { 
+    useGetLast4Digits, 
+    useChangeEmail, 
+    useGetUserSubscriptions, 
+    useRefundUserSubscription 
+} from '../../hooks/useUser'
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
+import { MdOutlineContentCopy } from 'react-icons/md'
+import { RiRefund2Fill } from 'react-icons/ri'
 
 const UserDetails = () => {
     const { user, setIsEditModal, setEditModalData, setUserSubscriptions, userSubscriptions } = useCore();
     const [getLast4Digits, { loading: loading1 }] = useGetLast4Digits();
     const [changeEmail, { loading: loading2 }] = useChangeEmail();
     const [getUserSubscriptions] =  useGetUserSubscriptions();
+    const [refundUserSubscription, { loading: loading3 }] = useRefundUserSubscription();
     
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
@@ -68,14 +78,34 @@ const UserDetails = () => {
                 <DetailDisplay primary='Address' secondary={user?.address} />
                 <DetailDisplay primary='Subscriptions' disableCopy noTag>
                     {userSubscriptions?.map((sub, idx) => (
-                        <Tag key={idx} bg={sub.isCanceled ? 'red.500' : 'green.500'}>
-                            <TagLabel>
-                                {{
-                                    'prod_L0hlfe2EeLafmO': 'Contract',
-                                    'prod_L2PjChEBAf0fur': 'Website'
-                                }[sub.productId]}
-                            </TagLabel>
-                        </Tag>
+                        <Menu key={idx}>
+                            <MenuButton as={Tag} bg={sub.isCanceled ? 'red.500' : 'green.500'} cursor='pointer'>
+                                <TagLabel>
+                                    {{
+                                        'prod_L0hlfe2EeLafmO': 'Contract',
+                                        'prod_L2PjChEBAf0fur': 'Website'
+                                    }[sub.productId]}
+                                </TagLabel>
+                            </MenuButton>
+                            <MenuList>
+                                <MenuItem onClick={() => navigator.clipboard.writeText(sub.id)}>
+                                    <HStack alignItems='center'>
+                                        <Text fontSize='10pt'>
+                                            ID: {sub.id}
+                                        </Text>
+                                        <MdOutlineContentCopy cursor='pointer' />
+                                    </HStack>
+                                </MenuItem>
+                                <MenuDivider />
+                                <MenuItem 
+                                    icon={<RiRefund2Fill fontSize='18pt' />} 
+                                    disabled={loading3}
+                                    onClick={() => refundUserSubscription({ variables: { subscriptionId: sub.id, invoiceId: sub.invoiceId }})}
+                                >
+                                    Cancel & Refund
+                                </MenuItem>
+                            </MenuList>
+                        </Menu>
                     ))}
                 </DetailDisplay>
             </VStack>
