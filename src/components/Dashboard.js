@@ -23,6 +23,10 @@ const changeLogsArr = [
         logs: ['user subscriptions'], 
         date: 'June 15, 2022' 
     },
+    { 
+        logs: ['refund subscription'], 
+        date: 'Aug 02, 2022' 
+    },
 ]
 
 const Dashboard = () => {

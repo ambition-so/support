@@ -7,7 +7,8 @@ import {
     VERIFY_SIGNATURE, 
     GET_NONCE, 
     GET_USER_BY_CUSTOMER_ID,
-    GET_USER_SUBSCRIPTIONS
+    GET_USER_SUBSCRIPTIONS,
+    REFUND_USER_SUBSCRIPTION
 } from '../gql/user.gql'
 import { useCore } from '../providers/CoreProvider'
 import { useAuth } from '../providers/AuthProvider'
@@ -197,7 +198,6 @@ export const useGetUserSubscriptions = () => {
         GET_USER_SUBSCRIPTIONS,
         {
             onCompleted: async (data) => {
-                console.log(data.getUserSubscriptions)
                 setUserSubscriptions(data.getUserSubscriptions)
             },
             onError: async (err) => {
@@ -215,4 +215,36 @@ export const useGetUserSubscriptions = () => {
     );
 
     return [getUserSubscriptions, { ...queryResult }];
+};
+
+export const useRefundUserSubscription = () => {
+    const toast = useToast();
+
+    const [refundUserSubscription, { ...mutationResult }] = useMutation(REFUND_USER_SUBSCRIPTION, {
+        onCompleted: (data) => {
+            if (data.refundUserSubscription) {
+                toast({
+                    title: 'Success',
+                    description: "Successfully refunded and canceled user's subscription",
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        },
+        onError: async (err) => {
+            console.error(err);
+            toast({
+                title: 'Error',
+                description: !err.response ? err.message : err.response.data?.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
+        }
+    });
+
+    return [refundUserSubscription, { ...mutationResult }];
 };
