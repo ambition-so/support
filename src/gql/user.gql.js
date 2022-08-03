@@ -61,6 +61,20 @@ export const GET_USER_BY_CUSTOMER_ID = gql`
     }
 `
 
+export const GET_USER_BY_SUBSCRIPTION_ID = gql`
+    query GetUserBySubscriptionID($subscriptionId: String!) {
+        getUserBySubscriptionID(subscriptionId: $subscriptionId) {
+            id
+            nonce
+            address
+            email
+            password
+            name
+            stripeCustomerId
+        }
+    }
+`
+
 export const GET_USER_SUBSCRIPTIONS = gql`
     query GetUserSubscriptions($customerId: String!) {
         getUserSubscriptions(customerId: $customerId) {

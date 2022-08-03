@@ -151,3 +151,9 @@ export const GET_WEBSITES_BY_CONTRACT_ADDRESS = gql`
         }
     }
 `
+
+export const SET_AUTHOR = gql`
+    mutation SetWebsiteAuthor($websiteId: String!, $authorId: String!) {
+        setWebsiteAuthor(websiteId: $websiteId, authorId: $authorId)
+    }
+`;

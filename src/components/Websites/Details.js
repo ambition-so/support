@@ -3,7 +3,12 @@ import { useCore } from '../../providers/CoreProvider';
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
 import EditModal from '../EditModal';
-import { useSetWebsiteTitle, useSetContractAddress, useSetSubscription } from '../../hooks/useWebsite'
+import { 
+    useSetWebsiteTitle, 
+    useSetContractAddress, 
+    useSetSubscription,
+    useSetWebsiteAuthor
+} from '../../hooks/useWebsite'
 import { useGetUser } from '../../hooks/useUser'
 
 const WebsiteDetails = () => {
@@ -11,6 +16,7 @@ const WebsiteDetails = () => {
     const [setWebsiteTitle, { loading: loading1 }] = useSetWebsiteTitle();
     const [setContractAddress, { loading: loading2 }] = useSetContractAddress();
     const [setSubscription, { loading: loading3 }] = useSetSubscription();
+    const [setWebsiteAuthor, { loading: loading4 }] = useSetWebsiteAuthor();
     const [getUser, { loading: loading6 }] = useGetUser();
 
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
@@ -50,6 +56,19 @@ const WebsiteDetails = () => {
                     </Button>
                 </DetailDisplay>
                 <DetailDisplay primary='Author' secondary={website?.author}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Website Author',
+                            default: website?.author,
+                            callback: (newValue) => {
+                                if (newValue === website?.author) return;
+                                setWebsiteAuthor({ variables: { websiteId: website?._id, authorId: newValue }})
+                            }
+                        })
+                        setIsEditModal(true);
+                    }} disabled={loading4} isLoading={loading4} loadingText='Saving'>
+                        Edit
+                    </Button>
                     <Button size='sm' variant='secondary' onClick={() => getUser({ variables: { id: website?.author } })} disabled={loading6} isLoading={loading6} loadingText='Saving'>
                         Configure
                     </Button>

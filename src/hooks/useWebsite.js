@@ -6,7 +6,8 @@ import {
     UPDATE_CONNECTED_ADDRESS, 
     SET_SUBSCRIPTION, 
     GET_WEBSITE_BY_ID,
-    GET_WEBSITES_BY_CONTRACT_ADDRESS
+    GET_WEBSITES_BY_CONTRACT_ADDRESS,
+    SET_AUTHOR
 } from '../gql/website.gql'
 import { useCore } from '../providers/CoreProvider'
 
@@ -210,4 +211,39 @@ export const useGetWebsitesByContractAddress = () => {
     );
 
     return [getWebsite, { ...queryResult }];
+};
+
+export const useSetWebsiteAuthor = () => {
+    const toast = useToast();
+    const { website, setWebsite } = useCore();
+
+    const [setWebsiteAuthor, { ...mutationResult }] = useMutation(SET_AUTHOR, {
+        onCompleted: (data) => {
+            let newWebsite = { ...website };
+            newWebsite.author = data.setWebsiteAuthor;
+            setWebsite(newWebsite);
+
+            toast({
+                title: 'Success',
+                description: "Successfully updated website's author ",
+                status: 'success',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
+        },
+        onError: async (err) => {
+            console.error(err);
+            toast({
+                title: 'Error',
+                description: !err.response ? err.message : err.response.data?.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
+        }
+    });
+
+    return [setWebsiteAuthor, { ...mutationResult }];
 };
