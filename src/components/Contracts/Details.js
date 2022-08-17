@@ -12,7 +12,8 @@ import {
     useSetUnRevealedBaseUri,
     useSetContractName,
     useDeleteContract,
-    useSetContractType
+    useSetContractType,
+    useSetBlockchain
 } from '../../hooks/useContract'
 import {
     useGetWebsitesByContractAddress
@@ -34,6 +35,7 @@ const ContractDetails = () => {
     const [setContractName, { loading: loading7 }] = useSetContractName();
     const [deleteContract, { loading: loading8 }] = useDeleteContract();
     const [setContractType, { loading: loading9 }] = useSetContractType();
+    const [setBlockchain, { loading: loading10 }] = useSetBlockchain();
 
     useEffect(() => {
         if (!contract) return;
@@ -41,7 +43,10 @@ const ContractDetails = () => {
     }, [contract])
 
     const getConnectedWebsites = async () => {
+        if (!contract) return;
+        if (!contract.address) return;
         const res = await getWebsitesByContractAddress({ variables: { contractAddress: contract.address }});
+        if (!res.data) return;
         setWebsites(res.data.getWebsitesByContractAddress);
     }
 
@@ -162,7 +167,21 @@ const ContractDetails = () => {
                         Configure
                     </Button>
                 </DetailDisplay>
-                <DetailDisplay primary='Blockchain' secondary={contract?.blockchain} />
+                <DetailDisplay primary='Blockchain' secondary={contract?.blockchain}>
+                    <Button size='sm' variant='primary' onClick={() => {
+                        setEditModalData({
+                            item: 'Contract Blockchain',
+                            default: contract?.blockchain,
+                            callback: (newValue) => {
+                                if (newValue === contract?.blockchain) return;
+                                setBlockchain({ variables: { id: contract?.id, blockchain: newValue } })
+                            }
+                        }) 
+                        setIsEditModal(true);
+                    }} disabled={loading10} isLoading={loading10} loadingText='Saving'>
+                        Edit
+                    </Button>
+                </DetailDisplay>
             </VStack>
             <VStack mt='2em' alignItems='flex-start'>
                 <Text fontSize='10pt'>

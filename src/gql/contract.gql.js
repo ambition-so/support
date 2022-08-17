@@ -212,3 +212,9 @@ export const SET_CONTRACT_TYPE = gql`
         setContractType(id: $id, type: $type)
     }
 `
+
+export const SET_BLOCKCHAIN = gql`
+    mutation SetBlockchain($id: String!, $blockchain: String!) {
+        setBlockchain(id: $id, blockchain: $blockchain)
+    }
+`;

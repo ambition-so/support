@@ -14,7 +14,8 @@ import {
     SET_OWNER_ID,
     SET_CONTRACT_SUBSCRIPTION,
     SET_CONTRACT_NAME,
-    SET_CONTRACT_TYPE
+    SET_CONTRACT_TYPE,
+    SET_BLOCKCHAIN
 } from '../gql/contract.gql'
 import { useCore } from '../providers/CoreProvider'
 import ERC721 from '../libs/abi/ambitionNFTPresale.json';
@@ -463,4 +464,42 @@ const getContractOwner = async (contractData) => {
         console.error(err);
         return 'Error Getting Contract Owner';
     }
+}
+
+export const useSetBlockchain = () => {
+    const toast = useToast();
+    const { contract, setContract } = useCore();
+
+    const [setBlockchain, { ...queryResult }] = useMutation(
+        SET_BLOCKCHAIN,
+        {
+            onCompleted: async (data) => {
+                let newContract = { ...contract }
+                newContract.blockchain = data.setBlockchain;
+                setContract(newContract);
+
+                toast({
+                    title: 'Success',
+                    description: 'Updated Contract Blockchain',
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            },
+            onError: async (err) => {
+                console.error(err);
+                toast({
+                    title: 'Error',
+                    description: !err.response ? err.message : err.response.data?.message,
+                    status: 'error',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        }
+    );
+
+    return [setBlockchain, { ...queryResult }];
 }
