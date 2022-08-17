@@ -217,8 +217,8 @@ const ContractDetails = () => {
                 <DetailDisplay primary='Unrevelead URI' secondary={contract?.nftCollection?.unRevealedBaseUri}>
                     <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({
-                            item: 'Contract Owner ID',
-                            default: contract?.nftCollection?.unRevealedBaseUri,
+                            item: 'Contract UnRevealedBaseUri',
+                            default: contract?.nftCollection?.unRevealedBaseUri || '',
                             callback: (newValue) => {
                                 if (newValue === contract?.author) return;
                                 setUnRevealedBaseUri({ variables: { id: contract?.id, unRevealedBaseUri: newValue } })
@@ -232,8 +232,8 @@ const ContractDetails = () => {
                 <DetailDisplay primary='Base URI' secondary={contract?.nftCollection?.baseUri}>
                     <Button size='sm' variant='primary' onClick={() => {
                         setEditModalData({
-                            item: 'Contract Owner ID',
-                            default: contract?.nftCollection?.baseUri,
+                            item: 'Contract BaseUri',
+                            default: contract?.nftCollection?.baseUri || '',
                             callback: (newValue) => {
                                 if (newValue === contract?.author) return;
                                 setBaseUri({ variables: { id: contract?.id, baseUri: newValue } })
