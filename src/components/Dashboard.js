@@ -31,6 +31,10 @@ const changeLogsArr = [
         logs: ['edit website author', 'find user by subscription id'], 
         date: 'Aug 03, 2022' 
     },
+    { 
+        logs: ['added cancel subscription'], 
+        date: 'Oct 06, 2022' 
+    },
 ]
 
 const Dashboard = () => {

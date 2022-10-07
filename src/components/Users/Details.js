@@ -7,7 +7,8 @@ import {
     useGetLast4Digits, 
     useChangeEmail, 
     useGetUserSubscriptions, 
-    useRefundUserSubscription 
+    useRefundUserSubscription, 
+    useStopUserSubscription
 } from '../../hooks/useUser'
 import Loading from '../Loading';
 import DetailDisplay from '../DetailDisplay';
@@ -21,7 +22,8 @@ const UserDetails = () => {
     const [changeEmail, { loading: loading2 }] = useChangeEmail();
     const [getUserSubscriptions] =  useGetUserSubscriptions();
     const [refundUserSubscription, { loading: loading3 }] = useRefundUserSubscription();
-    
+    const [stopUserSubscription, { loading: loading4 }] = useStopUserSubscription();
+
     const containerColor = useColorModeValue('white', 'rgb(17,21,28)');
 
     useEffect(() => {
@@ -97,6 +99,13 @@ const UserDetails = () => {
                                     </HStack>
                                 </MenuItem>
                                 <MenuDivider />
+                                <MenuItem 
+                                    icon={<RiRefund2Fill fontSize='18pt' />} 
+                                    disabled={loading4}
+                                    onClick={() => stopUserSubscription({ variables: { subscriptionId: sub.id }})}
+                                >
+                                    Cancel
+                                </MenuItem>
                                 <MenuItem 
                                     icon={<RiRefund2Fill fontSize='18pt' />} 
                                     disabled={loading3}

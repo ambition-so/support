@@ -97,3 +97,9 @@ export const REFUND_USER_SUBSCRIPTION = gql`
         refundUserSubscription(subscriptionId: $subscriptionId, invoiceId: $invoiceId)
     }
 `;
+
+export const STOP_USER_SUBSCRIPTION = gql`
+    mutation StopUserSubscription($subscriptionId: String!) {
+        stopUserSubscription(subscriptionId: $subscriptionId)
+    }
+`;

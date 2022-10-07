@@ -9,7 +9,8 @@ import {
     GET_USER_BY_CUSTOMER_ID,
     GET_USER_SUBSCRIPTIONS,
     REFUND_USER_SUBSCRIPTION,
-    GET_USER_BY_SUBSCRIPTION_ID
+    GET_USER_BY_SUBSCRIPTION_ID,
+    STOP_USER_SUBSCRIPTION
 } from '../gql/user.gql'
 import { useCore } from '../providers/CoreProvider'
 import { useAuth } from '../providers/AuthProvider'
@@ -276,4 +277,36 @@ export const useGetUserBySubscriptionID = () => {
     );
 
     return [getUserBySubscriptionID, { ...queryResult }];
+};
+
+export const useStopUserSubscription = () => {
+    const toast = useToast();
+
+    const [stopUserSubscription, { ...mutationResult }] = useMutation(STOP_USER_SUBSCRIPTION, {
+        onCompleted: (data) => {
+            if (data.stopUserSubscription) {
+                toast({
+                    title: 'Success',
+                    description: "Successfully canceled user's subscription",
+                    status: 'success',
+                    duration: 3000,
+                    isClosable: true,
+                    position: 'bottom-center'
+                })
+            }
+        },
+        onError: async (err) => {
+            console.error(err);
+            toast({
+                title: 'Error',
+                description: !err.response ? err.message : err.response.data?.message,
+                status: 'error',
+                duration: 3000,
+                isClosable: true,
+                position: 'bottom-center'
+            })
+        }
+    });
+
+    return [stopUserSubscription, { ...mutationResult }];
 };
